@@ -62,11 +62,11 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
      * has been downloaded to the Robot Controller's SD FLASH memory, it must to be loaded using loadModelFromFile()
      * Here we assume it's an Asset.    Also see method initTfod() below .
      */
-    private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
+    public static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
     // private static final String TFOD_MODEL_FILE  = "/sdcard/FIRST/tflitemodels/CustomTeamModel.tflite";
 
 
-    private static final String[] LABELS = {
+    public static final String[] LABELS = {
             "one",
             "two",
             "three"
@@ -91,13 +91,13 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
      */
-    private VuforiaLocalizer vuforia;
+    public VuforiaLocalizer vuforia;
 
     /**
      * {@link #tfod} is the variable we will use to store our instance of the TensorFlow Object
      * Detection engine.
      */
-    private TFObjectDetector tfod;
+    public TFObjectDetector tfod;
 
     @Override
     public void runOpMode() {
@@ -159,14 +159,14 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
     /**
      * Initialize the Vuforia localization engine.
      */
-    private void initVuforia() {
+    public void initVuforia() {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
          */
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam");
 
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
@@ -175,7 +175,7 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
     /**
      * Initialize the TensorFlow Object Detection engine.
      */
-    private void initTfod() {
+    public void initTfod() {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
             "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
