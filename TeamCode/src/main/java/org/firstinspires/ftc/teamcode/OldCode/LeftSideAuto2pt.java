@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.OldCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -58,8 +58,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Station OpMode list
  */
 
-@Autonomous(name = "RedLeftAuto4pt ", group = "Robot")
-public class RedLeftAuto4pt extends LinearOpMode {
+@Autonomous(name = "LeftSideAuto2pt", group = "Robot")
+@Disabled
+public class LeftSideAuto2pt extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -104,24 +105,10 @@ public class RedLeftAuto4pt extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        // Step through each leg of the path, ensuring that the Auto mode has not been
-        // stopped along the way
-
-
-			
-		clampClose();
-		liftUp(4);
-		driveForward(0.75);
-		clampOpen();
-		driveBackwards(0.5);
-		liftDown(1.5);
-		driveLeft(3.5);
-		
-
-		
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
-        sleep(500);
+		liftUp(1);
+        driveForward(0.5);
+        driveLeft(3.5);
+        driveBackwards(0.5);
     }
 
     public void driveForward(double seconds) {
@@ -219,12 +206,10 @@ public class RedLeftAuto4pt extends LinearOpMode {
 	public void clampClose(){
 		leftClawServo.setPosition(1.0);
         rightClawServo.setPosition(0.0);
-        sleep(250);
 	}
 	
 	public void clampOpen(){
 		leftClawServo.setPosition(0.0);
         rightClawServo.setPosition(1.0);
-        sleep(250);
 	}
 }

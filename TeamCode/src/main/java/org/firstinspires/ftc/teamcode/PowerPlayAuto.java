@@ -30,43 +30,21 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 import java.util.List;
 
-/**
- * This file illustrates the concept of driving a path based on time.
- * The code is structured as a LinearOpMode
- *
- * The code assumes that you do NOT have encoders on the wheels,
- * otherwise you would use: RobotAutoDriveByEncoder;
- *
- * The desired path in this example is:
- * - Drive forward for 3 seconds
- * - Spin right for 1.3 seconds
- * - Drive Backward for 1 Second
- *
- * The code is written in a simple form with no optimizations.
- * However, there are several ways that this type of sequence could be
- * streamlined,
- *
- * Use Android Studio to Copy this Class, and Paste it into your team's code
- * folder with a new name.
- * Remove or comment out the @Disabled line to add this OpMode to the Driver
- * Station OpMode list
+/*
+  This file illustrates the concept of driving a path based on time.
+  The code is structured as a LinearOpMode
  */
 
 /** Created by Gavin */
 @Autonomous(name = "Robot: Auto Drive By Time", group = "Robot")
-public class OpModeRightSide extends ConceptTensorFlowObjectDetectionWebcam {
+public class PowerPlayAuto extends PowerPlayConfig {
 
-    /* Declare OpMode members. */
+    /* Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     public DcMotor leftFrontDrive = null;
     public DcMotor leftBackDrive = null;
@@ -78,9 +56,11 @@ public class OpModeRightSide extends ConceptTensorFlowObjectDetectionWebcam {
 
     static final double SPEED = 0.6;
 
+     */
     @Override
     public void runOpMode() {
 
+        /*
         // Initialize the drive system variables.
         leftFrontDrive = hardwareMap.get(DcMotor.class, "FrontLeftDrive");
         leftBackDrive = hardwareMap.get(DcMotor.class, "BackLeftDrive");
@@ -101,70 +81,123 @@ public class OpModeRightSide extends ConceptTensorFlowObjectDetectionWebcam {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
-        // Send telemetry message to signify robot waiting;
-        telemetry.addData("Status", "Ready to run"); //
+         */
+
+        // Send telemetry message to signify robot waiting
+        telemetry.addData("Status", "Ready to run");
         telemetry.update();
 
+        initDriveHardware();
         initVuforia();
         initTfod();
 
         if (tfod != null){
             tfod.activate();
             tfod.setZoom(1.0, 16.0/9.0);
-        }
-
-        // Wait for the game to start (driver presses PLAY)
-        waitForStart();
-
-        // Step through each leg of the path, ensuring that the Auto mode has not been
-        // stopped along the way
-
-        if (opModeIsActive()){
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
             if (updatedRecognitions != null) {
-
                 if (updatedRecognitions.size() == 1) {
                     Recognition r = updatedRecognitions.get(0);
                     telemetry.addData("Object Detected: ", r.getLabel());
                     telemetry.update();
-                    if (r.getLabel().equals("one")) {
-                        clampClose();
-                        liftUp(1.5);
-                        driveForward(0.75);
-                        clampOpen();
-                        driveBackwards(0.5);
-                        liftDown(1.5);
-                        driveLeft(3.5);
-                    }else if (r.getLabel().equals("two")){
-                        clampClose();
-                        liftUp(1.5);
-                        driveForward(0.75);
-                        clampOpen();
-                        driveBackwards(0.5);
-                        liftDown(1.5);
-                        driveLeft(3.5);
-                    }else if (r.getLabel().equals("three")){
-                        clampClose();
-                        liftUp(1.5);
-                        driveForward(0.75);
-                        clampOpen();
-                        driveBackwards(0.5);
-                        liftDown(1.5);
-                        driveLeft(3.5);
-                    }
+                    chooseProgram();
                 } else {
                     telemetry.addData("Status:", "Confused");
                     telemetry.update();
                 }
-
             }
-		}
-		
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
-        sleep(500);
+        }
     }
 
+    public void chooseProgram(){
+        while (!isStarted()) {
+            telemetry.addData("Please select a Auto to run", "");
+            telemetry.addData( "A - Blue Left | B - Blue Right | X - Red Left | Y - Red Right", "");
+            telemetry.update();
+            if (gamepad1.a) {
+                telemetry.addData("RobotPosition", "Blue Left");
+                blueLeft();
+                telemetry.update();
+                break;
+            } else if (gamepad1.b) {
+                telemetry.addData("RobotPosition", "Blue Right");
+                blueRight();
+                telemetry.update();
+                break;
+            } else if (gamepad1.x) {
+                telemetry.addData("RobotPosition", "Red Left");
+                redLeft();
+                telemetry.update();
+                break;
+            } else if (gamepad1.y) {
+                telemetry.addData("RobotPosition", "Red Right");
+                redRight();
+                telemetry.update();
+                break;
+            } else {
+                telemetry.addData("waiting", "help");
+                telemetry.update();
+            }
+        }
+    }
+
+    public void blueLeft(){
+        waitForStart();
+        if (getRecognition().equals("one")){
+            telemetry.addData("Running Code: ", "Blue Left One");
+            telemetry.update();
+        } else if (getRecognition().equals("two")){
+            telemetry.addData("Running Code: ", "Blue Left Two");
+            telemetry.update();
+        } else if (getRecognition().equals("three")){
+            telemetry.addData("Running Code: ", "Blue Left Three");
+            telemetry.update();
+        }
+    }
+
+    public void blueRight(){
+        waitForStart();
+        if (getRecognition().equals("one")){
+            telemetry.addData("Running Code: ", "Blue Right One");
+            telemetry.update();
+        } else if (getRecognition().equals("two")){
+            telemetry.addData("Running Code: ", "Blue Right Two");
+            telemetry.update();
+        } else if (getRecognition().equals("three")){
+            telemetry.addData("Running Code: ", "Blue Right Three");
+            telemetry.update();
+        }
+    }
+
+    public void redLeft(){
+        waitForStart();
+        if (getRecognition().equals("one")){
+            telemetry.addData("Running Code: ", "Red Left One");
+            telemetry.update();
+        } else if (getRecognition().equals("two")){
+            telemetry.addData("Running Code: ", "Red Left Two");
+            telemetry.update();
+        } else if (getRecognition().equals("three")){
+            telemetry.addData("Running Code: ", "Red Left Three");
+            telemetry.update();
+        }
+    }
+
+    public void redRight(){
+        waitForStart();
+        if (getRecognition().equals("one")){
+            telemetry.addData("Running Code: ", "Red Right One");
+            telemetry.update();
+        } else if (getRecognition().equals("two")){
+            telemetry.addData("Running Code: ", "Red Right Two");
+            telemetry.update();
+        } else if (getRecognition().equals("three")){
+            telemetry.addData("Running Code: ", "Red Right Three");
+            telemetry.update();
+        }
+    }
+
+    /*
     public void driveForward(double seconds) {
         leftFrontDrive.setPower(SPEED);
         leftBackDrive.setPower(SPEED);
@@ -203,7 +236,7 @@ public class OpModeRightSide extends ConceptTensorFlowObjectDetectionWebcam {
         rightBackDrive.setPower(0);
 		sleep(250);
     }
-	
+
 	public void driveLeft(double seconds) {
         leftFrontDrive.setPower(-SPEED);
         leftBackDrive.setPower(SPEED);
@@ -229,7 +262,7 @@ public class OpModeRightSide extends ConceptTensorFlowObjectDetectionWebcam {
         rightBackDrive.setPower(0);
 		sleep(250);
     }
-	
+
 	public void turnLeft(double seconds) {
         leftFrontDrive.setPower(-SPEED);
         leftBackDrive.setPower(-SPEED);
@@ -242,28 +275,29 @@ public class OpModeRightSide extends ConceptTensorFlowObjectDetectionWebcam {
         rightBackDrive.setPower(0);
 		sleep(250);
     }
-	
+
 	public void liftUp(double seconds){
 		liftLiftMotor.setPower(0.5);
 		sleep((long) (seconds * 1000));
 		liftLiftMotor.setPower(0);
 		sleep(250);
 	}
-	
+
 	public void liftDown(double seconds){
 		liftLiftMotor.setPower(-0.5);
 		sleep((long) (seconds * 1000));
 		liftLiftMotor.setPower(0);
 		sleep(250);
 	}
-	
+
 	public void clampClose(){
 		leftClawServo.setPosition(1.0);
         rightClawServo.setPosition(0.0);
 	}
-	
+
 	public void clampOpen(){
 		leftClawServo.setPosition(0.0);
         rightClawServo.setPosition(1.0);
 	}
+	*/
 }

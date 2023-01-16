@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.OldCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -58,8 +58,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Station OpMode list
  */
 
-@Autonomous(name = "BlueRightAuto4pt", group = "Robot")
-public class BlueRightAuto4pt extends LinearOpMode {
+@Autonomous(name = "RightSideAuto2pt", group = "Robot")
+@Disabled
+public class RightSideAuto2pt extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -107,16 +108,14 @@ public class BlueRightAuto4pt extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been
         // stopped along the way
 
+        while (opModeIsActive()){
 
-			
-		clampClose();
-		liftUp(4);
-		driveForward(0.25);
-        clampOpen();
-        driveBackwards(0.15);
-		liftDown(1.5);
-        driveRight(3.5);
-
+            liftUp(1);
+            driveForward(0.5);
+            driveRight(3.5);
+            driveBackwards(0.5);
+		
+		}
 		
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -216,14 +215,12 @@ public class BlueRightAuto4pt extends LinearOpMode {
 	}
 	
 	public void clampClose(){
-		leftClawServo.setPosition(0.0);
-        rightClawServo.setPosition(1.0);
-        sleep(250);
+		leftClawServo.setPosition(1.0);
+        rightClawServo.setPosition(0.0);
 	}
 	
 	public void clampOpen(){
-		leftClawServo.setPosition(1.0);
-        rightClawServo.setPosition(0.0);
-        sleep(250);
+		leftClawServo.setPosition(0.0);
+        rightClawServo.setPosition(1.0);
 	}
 }
