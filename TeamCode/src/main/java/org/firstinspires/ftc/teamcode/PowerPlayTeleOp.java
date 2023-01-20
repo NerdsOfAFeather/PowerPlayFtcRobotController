@@ -30,8 +30,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -61,18 +59,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @TeleOp(name="PowerPlayTeleOp", group="Linear Opmode")
-
 public class PowerPlayTeleOp extends PowerPlayConfig {
 
-    // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
-    public DcMotor leftFrontDrive = null;
-    public DcMotor leftBackDrive = null;
-    public DcMotor rightFrontDrive = null;
-    public DcMotor rightBackDrive = null;
-    public DcMotor liftLiftMotor = null;
-    public Servo rightClawServo = null;
-    public Servo leftClawServo = null;
 
     public double axial;
     public double lateral;
@@ -81,23 +70,7 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
     @Override
     public void runOpMode() {
 
-        // Initialize the hardware variables. Note that the strings used here must correspond
-        // to the names assigned during the robot configuration step on the DS or RC devices.
-        leftFrontDrive = hardwareMap.get(DcMotor.class, "FrontLeftDrive");
-        leftBackDrive = hardwareMap.get(DcMotor.class, "BackLeftDrive");
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "FrontRightDrive");
-        rightBackDrive = hardwareMap.get(DcMotor.class, "BackRightDrive");
-        liftLiftMotor = hardwareMap.get(DcMotor.class, "LiftLiftMotor");
-        rightClawServo = hardwareMap.get(Servo.class, "RightClawServo");
-        leftClawServo = hardwareMap.get(Servo.class, "LeftClawServo");
-
-        // Most robots need the motors on one side to be reversed to drive forward.
-        // When you first test your robot, push the left joystick forward
-        // and flip the direction ( FORWARD <-> REVERSE ) of any wheel that runs backwards
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        initDriveHardware();
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Bingus", "Bongus");
@@ -127,14 +100,13 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
                 yaw = 0;
             }
 
-
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
             double leftFrontPower  = axial + lateral + yaw;
             double rightFrontPower = axial - lateral - yaw;
             double leftBackPower   = axial - lateral + yaw;
             double rightBackPower  = axial + lateral - yaw;
-            double liftLiftPower = 0;
+            double liftLiftPower;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -165,7 +137,7 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
             rightFrontPower = gamepad1.y ? 1.0 : 0.0;  // Y gamepad
             rightBackPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
             */
-            
+
             if (Math.abs(gamepad2.left_stick_y) >= 0.3) {
                 liftLiftPower = (-gamepad2.left_stick_y/1.25);
             } else{

@@ -41,7 +41,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.List;
 
-/**
+/*
  * This 2022-2023 OpMode illustrates the basics of using the TensorFlow Object Detection API to
  * determine which image is being presented to the robot.
  */
@@ -87,7 +87,7 @@ public class PowerPlayObjectDetection extends LinearOpMode {
             "3YsU9bUWoIo9JV4B01G7PK5OEi/Kl6OcyrZ+YI47Yer8oGBAk4hDDp8i4FC4anfVE07Qeg2EUVHsryFe";
 
     /**
-     * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
+     * vuforia is the variable we will use to store our instance of the Vuforia
      * localization engine.
      */
     public VuforiaLocalizer vuforia;
@@ -105,10 +105,10 @@ public class PowerPlayObjectDetection extends LinearOpMode {
         initVuforia();
         initTfod();
 
-        /**
+        /*
          * Activate TensorFlow Object Detection before we wait for the start command.
          * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
-         **/
+         */
         if (tfod != null) {
             tfod.activate();
 
@@ -121,7 +121,7 @@ public class PowerPlayObjectDetection extends LinearOpMode {
             tfod.setZoom(1.0, 16.0/9.0);
         }
 
-        /** Wait for the game to begin */
+        // Wait for the game to begin
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();

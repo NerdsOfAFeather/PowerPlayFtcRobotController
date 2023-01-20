@@ -40,8 +40,8 @@ import java.util.List;
  */
 
 /** Created by Gavin */
-@Autonomous(name = "Power Play Auto", group = "Robot")
-public class PowerPlayAuto extends PowerPlayConfig {
+@Autonomous(name = "Power Play Auto", group = "Auto")
+public class PowerPlayAutoNoTFOD extends PowerPlayConfig {
 
     @Override
     public void runOpMode() {
@@ -51,25 +51,7 @@ public class PowerPlayAuto extends PowerPlayConfig {
         telemetry.update();
 
         initDriveHardware();
-        initVuforia();
-        initTfod();
-
-        if (tfod != null){
-            tfod.activate();
-            tfod.setZoom(1.0, 16.0/9.0);
-            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-            if (updatedRecognitions != null) {
-                if (updatedRecognitions.size() == 1) {
-                    Recognition r = updatedRecognitions.get(0);
-                    telemetry.addData("Object Detected: ", r.getLabel());
-                    telemetry.update();
-                    chooseProgram();
-                } else {
-                    telemetry.addData("Status:", "Confused");
-                    telemetry.update();
-                }
-            }
-        }
+        chooseProgram();
     }
 
     public void chooseProgram(){
@@ -79,23 +61,23 @@ public class PowerPlayAuto extends PowerPlayConfig {
             telemetry.update();
             if (gamepad1.a) {
                 telemetry.addData("RobotPosition", "Blue Left");
-                blueLeft();
                 telemetry.update();
+                blueLeft();
                 break;
             } else if (gamepad1.b) {
                 telemetry.addData("RobotPosition", "Blue Right");
-                blueRight();
                 telemetry.update();
+                blueRight();
                 break;
             } else if (gamepad1.x) {
                 telemetry.addData("RobotPosition", "Red Left");
-                redLeft();
                 telemetry.update();
+                redLeft();
                 break;
             } else if (gamepad1.y) {
                 telemetry.addData("RobotPosition", "Red Right");
-                redRight();
                 telemetry.update();
+                redRight();
                 break;
             } else {
                 telemetry.addData("waiting", "help");
@@ -106,57 +88,35 @@ public class PowerPlayAuto extends PowerPlayConfig {
 
     public void blueLeft(){
         waitForStart();
-        if (getRecognition().equals("one")){
-            telemetry.addData("Running Code: ", "Blue Left One");
-            telemetry.update();
-        } else if (getRecognition().equals("two")){
-            telemetry.addData("Running Code: ", "Blue Left Two");
-            telemetry.update();
-        } else if (getRecognition().equals("three")){
-            telemetry.addData("Running Code: ", "Blue Left Three");
-            telemetry.update();
-        }
+
     }
 
     public void blueRight(){
         waitForStart();
-        if (getRecognition().equals("one")){
-            telemetry.addData("Running Code: ", "Blue Right One");
-            telemetry.update();
-        } else if (getRecognition().equals("two")){
-            telemetry.addData("Running Code: ", "Blue Right Two");
-            telemetry.update();
-        } else if (getRecognition().equals("three")){
-            telemetry.addData("Running Code: ", "Blue Right Three");
-            telemetry.update();
-        }
+
     }
 
     public void redLeft(){
         waitForStart();
-        if (getRecognition().equals("one")){
-            telemetry.addData("Running Code: ", "Red Left One");
-            telemetry.update();
-        } else if (getRecognition().equals("two")){
-            telemetry.addData("Running Code: ", "Red Left Two");
-            telemetry.update();
-        } else if (getRecognition().equals("three")){
-            telemetry.addData("Running Code: ", "Red Left Three");
-            telemetry.update();
-        }
+        clampClose();
+        liftUp(1);
+        driveForward(.25);
+        driveLeft(2);
+        driveForward(5);
+        turnRight(1.5);
+        driveForward(2);
+        liftUp(3);
+        turnLeft(.25);
+        driveForward(.25);
+        clampOpen();
+        liftDown(3.5);
+        driveBackwards(.25);
+        turnRight(2.25);
+        driveForward(2);
     }
 
     public void redRight(){
         waitForStart();
-        if (getRecognition().equals("one")){
-            telemetry.addData("Running Code: ", "Red Right One");
-            telemetry.update();
-        } else if (getRecognition().equals("two")){
-            telemetry.addData("Running Code: ", "Red Right Two");
-            telemetry.update();
-        } else if (getRecognition().equals("three")){
-            telemetry.addData("Running Code: ", "Red Right Three");
-            telemetry.update();
-        }
+
     }
 }
