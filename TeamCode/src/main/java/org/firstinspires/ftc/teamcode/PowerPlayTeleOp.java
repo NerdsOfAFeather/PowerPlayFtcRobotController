@@ -145,6 +145,9 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
             } else{
                 liftLiftPower = 0;
             }
+            if (gamepad2.dpad_down){
+                liftGoDown();
+            }
 
             if (gamepad2.left_trigger >= 0.4){
                 leftClawServo.setPosition(1.0);

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import androidx.annotation.Nullable;
+
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -24,6 +26,7 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
     public TouchSensor limit;
     public ColorSensor color;
     public IMU imu;
+    public boolean liftDown = false;
 
     static final double AUTO_SPEED = 0.6;
 
@@ -143,10 +146,16 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
     }
 
     public void liftDown(double seconds){
-        liftLiftMotor.setPower(-0.5);
-        sleep((long) (seconds * 1000));
-        liftLiftMotor.setPower(0);
-        sleep(250);
+        if (seconds != 0) {
+            liftLiftMotor.setPower(-0.5);
+            sleep((long) (seconds * 1000));
+            liftLiftMotor.setPower(0);
+            sleep(250);
+        } else {
+             while (!limit.isPressed()){
+                 liftLiftMotor.setPower(-0.5);
+             }
+        }
     }
 
     public void clampClose(){
@@ -159,4 +168,12 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
         rightClawServo.setPosition(1.0);
     }
 
+    public void liftGoDown(){
+        if (limit.isPressed()){
+            liftDown = true;
+        }
+        if (!liftDown){
+            liftLiftMotor.setPower(-0.5);
+        }
+    }
 }
