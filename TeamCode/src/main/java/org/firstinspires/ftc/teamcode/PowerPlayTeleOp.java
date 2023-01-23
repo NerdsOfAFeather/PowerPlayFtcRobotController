@@ -66,6 +66,7 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
     public double axial;
     public double lateral;
     public double yaw;
+    public boolean goingDown = false;
 
     @Override
     public void runOpMode() {
@@ -146,7 +147,10 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
                 liftLiftPower = 0;
             }
             if (gamepad2.dpad_down){
-                liftGoDown();
+                goingDown = true;
+            }
+            if (limit.isPressed()){
+                goingDown = false;
             }
 
             if (gamepad2.left_trigger >= 0.4){
@@ -181,5 +185,8 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
                     .addData("x", gamepad1.right_stick_x)
                     .addData("y", gamepad1.right_stick_y);
             telemetry.update();
+            if (goingDown){
+                liftGoDown();
+            }
         }
     }}
