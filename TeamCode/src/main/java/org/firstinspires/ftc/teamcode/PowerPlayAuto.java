@@ -51,8 +51,8 @@ public class PowerPlayAuto extends PowerPlayConfig {
         telemetry.update();
 
         initDriveHardware();
-        initVuforia();
-        initTfod();
+        //initVuforia();
+        //initTfod();
 
         if (tfod != null){
             tfod.activate();

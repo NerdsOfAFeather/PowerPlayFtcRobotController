@@ -138,7 +138,9 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
             rightBackPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
             */
 
-            if (Math.abs(gamepad2.left_stick_y) >= 0.3) {
+            if (gamepad2.left_stick_y <= 0.3 && !limit.isPressed()) {
+                liftLiftPower = (-gamepad2.left_stick_y/1.25);
+            } else if (-gamepad2.left_stick_y >= 0.3) {
                 liftLiftPower = (-gamepad2.left_stick_y/1.25);
             } else{
                 liftLiftPower = 0;

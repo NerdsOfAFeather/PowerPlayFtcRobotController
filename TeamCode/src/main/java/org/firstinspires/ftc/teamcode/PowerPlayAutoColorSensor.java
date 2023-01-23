@@ -31,17 +31,13 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-
-import java.util.List;
-
 /* This file illustrates the concept of driving a path based on time.
    The code is structured as a LinearOpMode
  */
 
 /** Created by Gavin */
 @Autonomous(name = "Power Play Auto No TFOD", group = "Auto")
-public class PowerPlayAutoNoTFOD extends PowerPlayConfig {
+public class PowerPlayAutoColorSensor extends PowerPlayConfig {
 
     @Override
     public void runOpMode() {
@@ -100,19 +96,48 @@ public class PowerPlayAutoNoTFOD extends PowerPlayConfig {
         waitForStart();
         clampClose();
         liftUp(1);
-        driveForward(.25);
-        driveLeft(2);
-        driveForward(5);
-        turnRight(1.5);
-        driveForward(2);
-        liftUp(3);
-        turnLeft(.25);
-        driveForward(.25);
-        clampOpen();
-        liftDown(3.5);
-        driveBackwards(.25);
-        turnRight(2.25);
-        driveForward(2);
+        driveForward(1.5);
+        int red = color.red();
+        int blue = color.blue();
+        int green = color.green();
+        driveForward(.5);  //Push the cone
+        if (red >= .5) { // Position 1?
+            driveBackwards(.5);
+            driveRight(2);
+            liftUp(3); //All the way
+            driveForward(.25);
+            clampOpen();
+            driveBackwards(.25);
+            liftDown(3);
+            driveLeft(4);
+        } else if (blue >= .5) { // Position 2?
+            driveBackwards(.5);//out of the way
+            driveRight(2);
+            liftUp(3); //All the way
+            driveForward(.25);
+            clampOpen();
+            driveBackwards(.25);
+            liftDown(3);
+            driveLeft(3);
+        } else if (green >= .5) { // Position 3?
+            driveBackwards(.5);
+            driveRight(2);
+            liftUp(3); //All the way
+            driveForward(.25);
+            clampOpen();
+            driveBackwards(.25);
+            liftDown(3);
+            driveLeft(2);
+        } else {
+            driveBackwards(.5);
+            driveRight(2);
+            liftUp(3); //All the way
+            driveForward(.25);
+            clampOpen();
+            driveBackwards(.25);
+            liftDown(3);
+            driveLeft(3);
+        }
     }
 
     public void redRight(){
