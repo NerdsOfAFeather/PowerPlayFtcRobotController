@@ -59,8 +59,7 @@ public class PowerPlayObjectDetection extends LinearOpMode {
      * Here we assume it's an Asset.    Also see method initTfod() below .
      */
     //public static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
-    private static final String TFOD_MODEL_FILE  = "/sdcard/FIRST/tflitemodels/model_20221214_185807.tflite";
-
+    private static final String TFOD_MODEL_FILE  = "/sdcard/FIRST/tflitemodels/model_20221113_163041.tflite";
 
     public static final String[] LABELS = {
             "one",

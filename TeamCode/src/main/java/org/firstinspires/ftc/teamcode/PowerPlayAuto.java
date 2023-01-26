@@ -54,58 +54,69 @@ public class PowerPlayAuto extends PowerPlayConfig {
         //initVuforia();
         //initTfod();
 
+        //Make a loop for tfod
+
         if (tfod != null){
             tfod.activate();
             tfod.setZoom(1.0, 16.0/9.0);
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
             if (updatedRecognitions != null) {
                 if (updatedRecognitions.size() == 1) {
+                    // Send telemetry message to signify robot waiting
                     Recognition r = updatedRecognitions.get(0);
-                    telemetry.addData("Object Detected: ", r.getLabel());
+                    telemetry.addData("Status", "Ready to run");
+                    telemetry.addData("Object Detected", r.getLabel());
                     telemetry.update();
                     chooseProgram();
                 } else {
-                    telemetry.addData("Status:", "Confused");
+                    telemetry.addData("Status", "Confused");
                     telemetry.update();
                 }
             }
         }
+        waitForStart();
     }
 
     public void chooseProgram(){
         while (!isStarted()) {
-            telemetry.addData("Please select a Auto to run", "");
+            telemetry.addData("Please select an Auto to run", "");
             telemetry.addData( "A - Blue Left | B - Blue Right | X - Red Left | Y - Red Right", "");
             telemetry.update();
             if (gamepad1.a) {
                 telemetry.addData("RobotPosition", "Blue Left");
-                blueLeft();
                 telemetry.update();
+                sleep(500);
+                blueLeft();
                 break;
             } else if (gamepad1.b) {
                 telemetry.addData("RobotPosition", "Blue Right");
-                blueRight();
                 telemetry.update();
+                sleep(500);
+                blueRight();
                 break;
             } else if (gamepad1.x) {
                 telemetry.addData("RobotPosition", "Red Left");
-                redLeft();
                 telemetry.update();
+                sleep(500);
+                redLeft();
                 break;
             } else if (gamepad1.y) {
                 telemetry.addData("RobotPosition", "Red Right");
-                redRight();
                 telemetry.update();
+                sleep(500);
+                redRight();
                 break;
             } else {
                 telemetry.addData("waiting", "help");
                 telemetry.update();
+                sleep(500);
             }
         }
     }
 
     public void blueLeft(){
         waitForStart();
+        String rlabel = getRecognition();
         if (getRecognition().equals("one")){
             telemetry.addData("Running Code: ", "Blue Left One");
             telemetry.update();

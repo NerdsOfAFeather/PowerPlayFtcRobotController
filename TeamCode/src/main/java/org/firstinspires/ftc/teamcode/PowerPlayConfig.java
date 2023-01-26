@@ -139,7 +139,7 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
     }
 
     public void liftUp(double seconds){
-        liftLiftMotor.setPower(0.5);
+        liftLiftMotor.setPower(-0.5);
         sleep((long) (seconds * 1000));
         liftLiftMotor.setPower(0);
         sleep(250);
@@ -147,7 +147,7 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
 
     public void liftDown(double seconds){
         if (seconds != 0) {
-            liftLiftMotor.setPower(-0.5);
+            liftLiftMotor.setPower(0.5);
             sleep((long) (seconds * 1000));
             liftLiftMotor.setPower(0);
             sleep(250);
@@ -159,13 +159,15 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
     }
 
     public void clampClose(){
-        leftClawServo.setPosition(1.0);
-        rightClawServo.setPosition(0.0);
+        leftClawServo.setPosition(0.0);
+        rightClawServo.setPosition(1.0);
+        sleep(1000);
     }
 
     public void clampOpen(){
-        leftClawServo.setPosition(0.0);
-        rightClawServo.setPosition(1.0);
+        leftClawServo.setPosition(1.0);
+        rightClawServo.setPosition(0.0);
+        sleep(1000);
     }
 
     public void liftGoDown(){

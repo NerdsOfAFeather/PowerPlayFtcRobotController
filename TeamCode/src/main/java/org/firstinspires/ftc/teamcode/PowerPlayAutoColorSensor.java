@@ -96,11 +96,21 @@ public class PowerPlayAutoColorSensor extends PowerPlayConfig {
         waitForStart();
         clampClose();
         liftUp(1);
-        driveForward(1.5);
-        int red = color.red();
-        int blue = color.blue();
-        int green = color.green();
+        sleep(250);
+        driveForward(2.5);
+        //int red = color.red();
+        //int blue = color.blue();
+        //int green = color.green();
         driveForward(.5);  //Push the cone
+        driveBackwards(.5);
+        driveRight(2.5);
+        liftUp(10); //All the way
+        driveRight(1);
+        clampOpen();
+        driveLeft(7);
+        driveForward(1);
+        //liftDown(3);
+        /*
         if (red >= .5) { // Position 1?
             driveBackwards(.5);
             driveRight(2);
@@ -138,6 +148,8 @@ public class PowerPlayAutoColorSensor extends PowerPlayConfig {
             liftDown(3);
             driveLeft(3);
         }
+        */
+
     }
 
     public void redRight(){
