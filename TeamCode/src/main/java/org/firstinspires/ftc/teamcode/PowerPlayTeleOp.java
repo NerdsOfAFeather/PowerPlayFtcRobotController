@@ -66,7 +66,6 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
     public double axial;
     public double lateral;
     public double yaw;
-    public boolean goingDown = false;
 
     @Override
     public void runOpMode() {
