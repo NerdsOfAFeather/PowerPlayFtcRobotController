@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import androidx.annotation.Nullable;
-
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -9,7 +7,6 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 
 /** Created by Gavin */
 @TeleOp(name="PowerPlayConfig", group="Linear Opmode")
@@ -23,10 +20,8 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
     public DcMotor liftLiftMotor = null;
     public Servo rightClawServo = null;
     public Servo leftClawServo = null;
-    public TouchSensor limit;
     public ColorSensor color;
     public IMU imu;
-    public boolean liftDown = false;
 
     static final double AUTO_SPEED = 0.6;
 

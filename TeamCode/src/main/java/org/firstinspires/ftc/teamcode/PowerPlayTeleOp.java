@@ -141,7 +141,7 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
 
             if (Math.abs(gamepad2.left_stick_y) >= 0.3) {
                 liftLiftPower = (-gamepad2.left_stick_y/1.25);
-            } else{
+            } else {
                 liftLiftPower = 0;
             }
 

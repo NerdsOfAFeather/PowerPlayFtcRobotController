@@ -116,7 +116,6 @@ public class PowerPlayAuto extends PowerPlayConfig {
 
     public void blueLeft(){
         waitForStart();
-        String rlabel = getRecognition();
         if (getRecognition().equals("one")){
             telemetry.addData("Running Code: ", "Blue Left One");
             telemetry.update();
