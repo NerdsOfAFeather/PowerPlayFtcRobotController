@@ -40,7 +40,7 @@ import java.util.List;
  */
 
 /** Created by Gavin */
-@Autonomous(name = "Power Play Auto", group = "Robot")
+@Autonomous(name = "Power Play Auto TFOD", group = "Robot")
 public class PowerPlayAuto extends PowerPlayConfig {
 
     @Override

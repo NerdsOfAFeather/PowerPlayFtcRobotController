@@ -36,7 +36,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  */
 
 /** Created by Gavin */
-@Autonomous(name = "Power Play Auto No TFOD", group = "Auto")
+@Autonomous(name = "PowerPlay Auto", group = "Auto")
 public class PowerPlayAutoColorSensor extends PowerPlayConfig {
 
     @Override
@@ -54,6 +54,9 @@ public class PowerPlayAutoColorSensor extends PowerPlayConfig {
         while (!isStarted()) {
             telemetry.addData("Please select a Auto to run", "");
             telemetry.addData( "A - Blue Left | B - Blue Right | X - Red Left | Y - Red Right", "");
+            telemetry.addData("Red", color.red());
+            telemetry.addData("Green", color.green());
+            telemetry.addData("Blue", color.blue());
             telemetry.update();
             if (gamepad1.a) {
                 telemetry.addData("RobotPosition", "Blue Left");
@@ -95,65 +98,58 @@ public class PowerPlayAutoColorSensor extends PowerPlayConfig {
     public void redLeft(){
         waitForStart();
         clampClose();
-        liftUp(1);
+        liftUp(3);
         sleep(250);
-        driveForward(2.5);
-        //int red = color.red();
-        //int blue = color.blue();
-        //int green = color.green();
-        driveForward(.5);  //Push the cone
-        driveBackwards(.5);
-        driveRight(2.5);
-        liftUp(10); //All the way
-        driveRight(1);
-        clampOpen();
-        driveLeft(7);
-        driveForward(1);
-        //liftDown(3);
-        /*
-        if (red >= .5) { // Position 1?
+        driveForward(2.25);
+        int desiredLocation = getDesiredLocation();
+        if (desiredLocation == 1) { // Position 1?
+            telemetry.addData("Detected", "Red");
+            telemetry.update();
+            driveForward(.5);
             driveBackwards(.5);
-            driveRight(2);
-            liftUp(3); //All the way
-            driveForward(.25);
+            driveRight(2.5);
+            liftUp(8); //All the way
+            driveRight(1.25);
             clampOpen();
-            driveBackwards(.25);
-            liftDown(3);
-            driveLeft(4);
-        } else if (blue >= .5) { // Position 2?
-            driveBackwards(.5);//out of the way
-            driveRight(2);
-            liftUp(3); //All the way
-            driveForward(.25);
-            clampOpen();
-            driveBackwards(.25);
-            liftDown(3);
-            driveLeft(3);
-        } else if (green >= .5) { // Position 3?
+            driveLeft(7);
+            driveForward(1);
+        } else if (desiredLocation == 2) { // Position 2?
+            telemetry.addData("Detected", "Green");
+            telemetry.update();
+            driveForward(.5);
             driveBackwards(.5);
-            driveRight(2);
-            liftUp(3); //All the way
+            driveRight(2.5);
+            liftUp(8); //All the way
+            driveRight(1.25);
             driveForward(.25);
             clampOpen();
-            driveBackwards(.25);
-            liftDown(3);
-            driveLeft(2);
-        } else {
+            driveLeft(3.5);
+        } else { // Position 3?
+            telemetry.addData("Detected", "Blue");
+            telemetry.update();
+            driveForward(.5);
             driveBackwards(.5);
-            driveRight(2);
-            liftUp(3); //All the way
+            driveRight(2.5);
+            liftUp(8); //All the way
+            driveRight(1.25);
             driveForward(.25);
             clampOpen();
-            driveBackwards(.25);
-            liftDown(3);
-            driveLeft(3);
+            driveLeft(1);
         }
-        */
-
     }
 
     public void redRight(){
         waitForStart();
 
+    }
+
+    private int getDesiredLocation() {
+        if (Math.max(Math.max(color.red(), color.blue()), color.green()) == color.red()) {
+            return 1;
+        } else if (Math.max(Math.max(color.red(), color.blue()), color.green()) == color.green()) {
+            return 2;
+        } else {
+            return 3;
+        }
     }
 }

@@ -46,7 +46,6 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
         liftLiftMotor = hardwareMap.get(DcMotor.class, "LiftLiftMotor");
         rightClawServo = hardwareMap.get(Servo.class, "RightClawServo");
         leftClawServo = hardwareMap.get(Servo.class, "LeftClawServo");
-        limit = hardwareMap.get(TouchSensor.class, "Limit");
         color = hardwareMap.get(ColorSensor.class, "Color");
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(orientationOnRobot));
@@ -58,6 +57,8 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+
+        liftLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     public void driveForward(double seconds) {
@@ -151,31 +152,18 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
             sleep((long) (seconds * 1000));
             liftLiftMotor.setPower(0);
             sleep(250);
-        } else {
-             while (!limit.isPressed()){
-                 liftLiftMotor.setPower(-0.5);
-             }
         }
     }
 
     public void clampClose(){
         leftClawServo.setPosition(0.0);
         rightClawServo.setPosition(1.0);
-        sleep(1000);
+        sleep(500);
     }
 
     public void clampOpen(){
         leftClawServo.setPosition(1.0);
         rightClawServo.setPosition(0.0);
-        sleep(1000);
-    }
-
-    public void liftGoDown(){
-        if (limit.isPressed()){
-            liftDown = true;
-        }
-        if (!liftDown){
-            liftLiftMotor.setPower(-0.5);
-        }
+        sleep(500);
     }
 }

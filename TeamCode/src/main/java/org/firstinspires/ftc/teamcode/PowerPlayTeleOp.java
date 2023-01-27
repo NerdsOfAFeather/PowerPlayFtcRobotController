@@ -139,18 +139,10 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
             rightBackPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
             */
 
-            if (Math.abs(gamepad2.left_stick_y) >= 0.3 && !limit.isPressed()) {
-                liftLiftPower = (-gamepad2.left_stick_y/1.25);
-            } else if (Math.abs(gamepad2.left_stick_y) >= 0.3) {
+            if (Math.abs(gamepad2.left_stick_y) >= 0.3) {
                 liftLiftPower = (-gamepad2.left_stick_y/1.25);
             } else{
                 liftLiftPower = 0;
-            }
-            if (gamepad2.dpad_down){
-                goingDown = true;
-            }
-            if (limit.isPressed()){
-                goingDown = false;
             }
 
             if (gamepad2.left_trigger >= 0.4){
@@ -174,7 +166,6 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
             telemetry.addData("Right Trigger", gamepad1.right_trigger);
             telemetry.addData("Left Claw Position", leftClawServo.getPosition());
             telemetry.addData("Right Claw Position", rightClawServo.getPosition());
-            telemetry.addData("Limit Switch", limit.getValue());
             telemetry.addData("Run Time: ", runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
@@ -186,8 +177,5 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
                     .addData("x", gamepad1.right_stick_x)
                     .addData("y", gamepad1.right_stick_y);
             telemetry.update();
-            if (goingDown){
-                liftGoDown();
-            }
         }
     }}
