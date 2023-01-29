@@ -30,145 +30,171 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-
-import java.util.List;
 
 /* This file illustrates the concept of driving a path based on time.
    The code is structured as a LinearOpMode
  */
 
 /** Created by Gavin */
-@Autonomous(name = "Power Play Auto TFOD", group = "Robot")
-@Disabled
-public class PowerPlayAuto extends PowerPlayConfig {
+@Autonomous(name = "PowerPlay Auto Parking Only", group = "Auto")
+public class PowerPlayAutoNoCone extends PowerPlayConfig {
 
     @Override
     public void runOpMode() {
-
         // Send telemetry message to signify robot waiting
         telemetry.addData("Status", "Ready to run");
         telemetry.update();
 
         initDriveHardware();
-        //initVuforia();
-        //initTfod();
-
-        //Make a loop for tfod
-
-        if (tfod != null){
-            tfod.activate();
-            tfod.setZoom(1.0, 16.0/9.0);
-            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-            if (updatedRecognitions != null) {
-                if (updatedRecognitions.size() == 1) {
-                    // Send telemetry message to signify robot waiting
-                    Recognition r = updatedRecognitions.get(0);
-                    telemetry.addData("Status", "Ready to run");
-                    telemetry.addData("Object Detected", r.getLabel());
-                    telemetry.update();
-                    chooseProgram();
-                } else {
-                    telemetry.addData("Status", "Confused");
-                    telemetry.update();
-                }
-            }
-        }
-        waitForStart();
+        chooseProgram();
     }
 
     public void chooseProgram(){
         while (!isStarted()) {
-            telemetry.addData("Please select an Auto to run", "");
+            telemetry.addData("Please select a Auto to run", "");
             telemetry.addData( "A - Blue Left | B - Blue Right | X - Red Left | Y - Red Right", "");
             telemetry.update();
             if (gamepad1.a) {
                 telemetry.addData("RobotPosition", "Blue Left");
                 telemetry.update();
-                sleep(500);
                 blueLeft();
                 break;
             } else if (gamepad1.b) {
                 telemetry.addData("RobotPosition", "Blue Right");
                 telemetry.update();
-                sleep(500);
                 blueRight();
                 break;
             } else if (gamepad1.x) {
                 telemetry.addData("RobotPosition", "Red Left");
                 telemetry.update();
-                sleep(500);
                 redLeft();
                 break;
             } else if (gamepad1.y) {
                 telemetry.addData("RobotPosition", "Red Right");
                 telemetry.update();
-                sleep(500);
                 redRight();
                 break;
-            } else {
-                telemetry.addData("waiting", "help");
-                telemetry.update();
-                sleep(500);
             }
         }
     }
 
     public void blueLeft(){
         waitForStart();
-        if (getRecognition().equals("one")){
-            telemetry.addData("Running Code: ", "Blue Left One");
+        clampClose();
+        liftUp(3);
+        sleep(250);
+        driveForward(2.25);
+        int desiredLocation = getDesiredLocation();
+        if (desiredLocation == 1) { // Position 1?
+            telemetry.addData("Detected", "Red");
             telemetry.update();
-        } else if (getRecognition().equals("two")){
-            telemetry.addData("Running Code: ", "Blue Left Two");
+            driveForward(.5);
+            driveBackwards(.5);
+            driveLeft(2);
+        } else if (desiredLocation == 2) { // Position 2?
+            telemetry.addData("Detected", "Green");
             telemetry.update();
-        } else if (getRecognition().equals("three")){
-            telemetry.addData("Running Code: ", "Blue Left Three");
+            driveForward(.5);
+            driveBackwards(.5);
+        } else { // Position 3?
+            telemetry.addData("Detected", "Blue");
             telemetry.update();
+            driveForward(.5);
+            driveBackwards(.5);
+            driveRight(2);
         }
     }
 
     public void blueRight(){
         waitForStart();
-        if (getRecognition().equals("one")){
-            telemetry.addData("Running Code: ", "Blue Right One");
+        clampClose();
+        liftUp(3);
+        sleep(250);
+        driveForward(2.25);
+        int desiredLocation = getDesiredLocation();
+        if (desiredLocation == 1) { // Position 1?
+            telemetry.addData("Detected", "Red");
             telemetry.update();
-        } else if (getRecognition().equals("two")){
-            telemetry.addData("Running Code: ", "Blue Right Two");
+            driveForward(.5);
+            driveBackwards(.5);
+            driveLeft(2);
+        } else if (desiredLocation == 2) { // Position 2?
+            telemetry.addData("Detected", "Green");
             telemetry.update();
-        } else if (getRecognition().equals("three")){
-            telemetry.addData("Running Code: ", "Blue Right Three");
+            driveForward(.5);
+            driveBackwards(.5);
+        } else { // Position 3?
+            telemetry.addData("Detected", "Blue");
             telemetry.update();
+            driveForward(.5);
+            driveBackwards(.5);
+            sleep(3000);
+            driveRight(2);
         }
     }
 
     public void redLeft(){
         waitForStart();
-        if (getRecognition().equals("one")){
-            telemetry.addData("Running Code: ", "Red Left One");
+        clampClose();
+        liftUp(3);
+        sleep(250);
+        driveForward(2.25);
+        int desiredLocation = getDesiredLocation();
+        if (desiredLocation == 1) { // Position 1?
+            telemetry.addData("Detected", "Red");
             telemetry.update();
-        } else if (getRecognition().equals("two")){
-            telemetry.addData("Running Code: ", "Red Left Two");
+            driveForward(.5);
+            driveBackwards(.5);
+            driveLeft(2);
+        } else if (desiredLocation == 2) { // Position 2?
+            telemetry.addData("Detected", "Green");
             telemetry.update();
-        } else if (getRecognition().equals("three")){
-            telemetry.addData("Running Code: ", "Red Left Three");
+            driveForward(.5);
+            driveBackwards(.5);
+        } else { // Position 3?
+            telemetry.addData("Detected", "Blue");
             telemetry.update();
+            driveForward(.5);
+            driveBackwards(.5);
+            sleep(3000);
+            driveRight(2);
         }
     }
 
     public void redRight(){
         waitForStart();
-        if (getRecognition().equals("one")){
-            telemetry.addData("Running Code: ", "Red Right One");
+        clampClose();
+        liftUp(3);
+        sleep(250);
+        driveForward(2.25);
+        int desiredLocation = getDesiredLocation();
+        if (desiredLocation == 1) { // Position 1?
+            telemetry.addData("Detected", "Red");
             telemetry.update();
-        } else if (getRecognition().equals("two")){
-            telemetry.addData("Running Code: ", "Red Right Two");
+            driveForward(.5);
+            driveBackwards(.5);
+            driveLeft(2);
+        } else if (desiredLocation == 2) { // Position 2?
+            telemetry.addData("Detected", "Green");
             telemetry.update();
-        } else if (getRecognition().equals("three")){
-            telemetry.addData("Running Code: ", "Red Right Three");
+            driveForward(.5);
+            driveBackwards(.5);
+        } else { // Position 3?
+            telemetry.addData("Detected", "Blue");
             telemetry.update();
+            driveForward(.5);
+            driveBackwards(.5);
+            driveRight(2);
+        }
+    }
+
+    private int getDesiredLocation() {
+        if (Math.max(Math.max(color.red(), color.blue()), color.green()) == color.red()) {
+            return 1;
+        } else if (Math.max(Math.max(color.red(), color.blue()), color.green()) == color.green()) {
+            return 2;
+        } else {
+            return 3;
         }
     }
 }
