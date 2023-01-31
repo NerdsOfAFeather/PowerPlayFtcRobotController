@@ -82,6 +82,12 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double max;
+            /*
+            if (limit.isPressed()){
+                goingDown = false;
+            }
+
+             */
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
             if (Math.abs(gamepad1.left_stick_y) >= 0.3) {
@@ -152,6 +158,12 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
                 leftClawServo.setPosition(0.0);
                 rightClawServo.setPosition(1.0);
             }
+            /*
+            if (gamepad2.dpad_down){
+                goingDown = true;
+            }
+
+             */
 
             // Send calculated power to wheels
             leftFrontDrive.setPower(leftFrontPower);
@@ -159,6 +171,7 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
             leftBackDrive.setPower(leftBackPower);
             rightBackDrive.setPower(rightBackPower);
             liftLiftMotor.setPower(liftLiftPower);
+            //liftGoDown();
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Left Trigger", gamepad1.left_trigger);

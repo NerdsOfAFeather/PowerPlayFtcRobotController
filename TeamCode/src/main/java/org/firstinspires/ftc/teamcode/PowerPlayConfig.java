@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import androidx.annotation.Nullable;
+
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -7,6 +9,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 /** Created by Gavin */
 @TeleOp(name="PowerPlayConfig", group="Linear Opmode")
@@ -20,9 +23,11 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
     public DcMotor liftLiftMotor = null;
     public Servo rightClawServo = null;
     public Servo leftClawServo = null;
+    //public TouchSensor limit;
     public ColorSensor color;
     public IMU imu;
 
+    //public boolean goingDown = false;
     static final double AUTO_SPEED = 0.6;
 
     RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
@@ -41,6 +46,7 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
         liftLiftMotor = hardwareMap.get(DcMotor.class, "LiftLiftMotor");
         rightClawServo = hardwareMap.get(Servo.class, "RightClawServo");
         leftClawServo = hardwareMap.get(Servo.class, "LeftClawServo");
+        //limit = hardwareMap.get(TouchSensor.class, "LimitSwitch");
         color = hardwareMap.get(ColorSensor.class, "Color");
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(orientationOnRobot));
@@ -161,4 +167,12 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
         rightClawServo.setPosition(0.0);
         sleep(500);
     }
+/*
+ public void liftGoDown(){
+     if (goingDown){
+         liftLiftMotor.setPower(-0.7);
+     }
+ }
+
+*/
 }
