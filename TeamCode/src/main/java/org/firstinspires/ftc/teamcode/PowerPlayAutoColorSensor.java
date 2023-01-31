@@ -267,7 +267,7 @@ public class PowerPlayAutoColorSensor extends PowerPlayConfig {
     }
 
     private int getDesiredLocation() {
-        if (Math.max(Math.max(color.red(), color.blue()), color.green()) == color.red()) {
+        if (color.red() >= 110) {
             return 1;
         } else if (Math.max(Math.max(color.red(), color.blue()), color.green()) == color.green()) {
             return 2;

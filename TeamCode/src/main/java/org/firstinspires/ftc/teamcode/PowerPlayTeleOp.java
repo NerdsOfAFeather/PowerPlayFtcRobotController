@@ -66,14 +66,11 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
     public double axial;
     public double lateral;
     public double yaw;
-    public boolean slowMode;
 
     @Override
     public void runOpMode() {
 
-
         initDriveHardware();
-
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Bingus", "Bongus");
@@ -144,6 +141,7 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
                 leftBackPower /= max;
                 rightBackPower /= max;
             }
+
             // This is test code:
             //
             // Uncomment the following code to test your motor directions.
@@ -175,6 +173,12 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
                 leftClawServo.setPosition(0.0);
                 rightClawServo.setPosition(1.0);
             }
+            /*
+            if (gamepad2.dpad_down){
+                goingDown = true;
+            }
+
+             */
 
             // Send calculated power to wheels
             leftFrontDrive.setPower(leftFrontPower);
@@ -182,6 +186,7 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
             leftBackDrive.setPower(leftBackPower);
             rightBackDrive.setPower(rightBackPower);
             liftLiftMotor.setPower(liftLiftPower);
+            //liftGoDown();
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Left Trigger", gamepad1.left_trigger);
