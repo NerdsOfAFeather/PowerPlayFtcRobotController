@@ -66,11 +66,14 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
     public double axial;
     public double lateral;
     public double yaw;
+    public boolean slowMode;
 
     @Override
     public void runOpMode() {
 
+
         initDriveHardware();
+
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Bingus", "Bongus");
@@ -82,45 +85,65 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double max;
-
-            // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            if (Math.abs(gamepad1.left_stick_y) >= 0.3) {
-                axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
-            }else{
-                axial = 0;
-            }
-            if (Math.abs(gamepad1.left_stick_x) >= 0.3) {
-                lateral = gamepad1.left_stick_x;
-            }else{
-                lateral = 0;
-            }
-            if (Math.abs(gamepad1.right_stick_x) >= 0.3){
-                yaw =  gamepad1.right_stick_x;
-            }else{
-                yaw = 0;
-            }
-
-            // Combine the joystick requests for each axis-motion to determine each wheel's power.
-            // Set up a variable for each drive wheel to save the power level for telemetry.
-            double leftFrontPower  = axial + lateral + yaw;
-            double rightFrontPower = axial - lateral - yaw;
-            double leftBackPower   = axial - lateral + yaw;
-            double rightBackPower  = axial + lateral - yaw;
+            double leftFrontPower;
+            double rightFrontPower;
+            double leftBackPower;
+            double rightBackPower;
             double liftLiftPower;
+            if (gamepad1.left_bumper && !slowMode){
+                slowMode = true;
+            } else if (gamepad1.left_bumper && slowMode){
+                slowMode = false;
+            }
+            if (slowMode) {
 
-            // Normalize the values so no wheel power exceeds 100%
-            // This ensures that the robot maintains the desired motion.
+                // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
+                if (Math.abs(gamepad1.left_stick_y) >= 0.3) {
+                    axial = -gamepad1.left_stick_y/2;  // Note: pushing stick forward gives negative value
+                } else {
+                    axial = 0;
+                }
+                if (Math.abs(gamepad1.left_stick_x) >= 0.3) {
+                    lateral = gamepad1.left_stick_x/2;
+                } else {
+                    lateral = 0;
+                }
+                if (Math.abs(gamepad1.right_stick_x) >= 0.3) {
+                    yaw = gamepad1.right_stick_x/2;
+                } else {
+                    yaw = 0;
+                }
+            } else {
+                // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
+                if (Math.abs(gamepad1.left_stick_y) >= 0.3) {
+                    axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
+                } else {
+                    axial = 0;
+                }
+                if (Math.abs(gamepad1.left_stick_x) >= 0.3) {
+                    lateral = gamepad1.left_stick_x;
+                } else {
+                    lateral = 0;
+                }
+                if (Math.abs(gamepad1.right_stick_x) >= 0.3) {
+                    yaw = gamepad1.right_stick_x;
+                } else {
+                    yaw = 0;
+                }
+            }
+            leftFrontPower = axial + lateral + yaw;
+            rightFrontPower = axial - lateral - yaw;
+            leftBackPower = axial - lateral + yaw;
+            rightBackPower = axial + lateral - yaw;
             max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
             max = Math.max(max, Math.abs(leftBackPower));
             max = Math.max(max, Math.abs(rightBackPower));
-
             if (max > 1.0) {
-                leftFrontPower  /= max;
+                leftFrontPower /= max;
                 rightFrontPower /= max;
-                leftBackPower   /= max;
-                rightBackPower  /= max;
+                leftBackPower /= max;
+                rightBackPower /= max;
             }
-
             // This is test code:
             //
             // Uncomment the following code to test your motor directions.
@@ -139,7 +162,7 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
             */
 
             if (Math.abs(gamepad2.left_stick_y) >= 0.3) {
-                liftLiftPower = (-gamepad2.left_stick_y/1.25);
+                liftLiftPower = (gamepad2.left_stick_y/1.25);
             } else {
                 liftLiftPower = 0;
             }
@@ -169,12 +192,13 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
             // Show joystick information as some other illustrative data
-            telemetry.addLine("left joystick | ")
+            telemetry.addLine("Left joystick | ")
                     .addData("x", gamepad1.left_stick_x)
                     .addData("y", gamepad1.left_stick_y);
-            telemetry.addLine("right joystick | ")
+            telemetry.addLine("Light joystick | ")
                     .addData("x", gamepad1.right_stick_x)
                     .addData("y", gamepad1.right_stick_y);
+            telemetry.addData("Slow mode", slowMode);
             telemetry.update();
         }
     }}

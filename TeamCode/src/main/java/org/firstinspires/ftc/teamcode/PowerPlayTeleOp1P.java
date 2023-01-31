@@ -79,6 +79,7 @@ public class PowerPlayTeleOp1P extends PowerPlayConfig {
     public double axial;
     public double lateral;
     public double yaw;
+    public boolean slowMode;
 
     @Override
     public void runOpMode() {
@@ -112,15 +113,47 @@ public class PowerPlayTeleOp1P extends PowerPlayConfig {
         while (opModeIsActive()) {
             double max;
 
-            // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            if (-gamepad1.left_stick_y >= 0.3) {
-                axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
+            if (gamepad1.left_bumper && !slowMode){
+                slowMode = true;
+            } else if (gamepad1.left_bumper && slowMode){
+                slowMode = false;
             }
-            if (gamepad1.left_stick_x >= 0.3) {
-                lateral = gamepad1.left_stick_x;
-            }
-            if (gamepad1.left_stick_y >= 0.3){
-                yaw =  gamepad1.right_stick_x;
+
+            if (slowMode) {
+
+                // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
+                if (Math.abs(gamepad1.left_stick_y) >= 0.3) {
+                    axial = -gamepad1.left_stick_y/2;  // Note: pushing stick forward gives negative value
+                } else {
+                    axial = 0;
+                }
+                if (Math.abs(gamepad1.left_stick_x) >= 0.3) {
+                    lateral = gamepad1.left_stick_x/2;
+                } else {
+                    lateral = 0;
+                }
+                if (Math.abs(gamepad1.right_stick_x) >= 0.3) {
+                    yaw = gamepad1.right_stick_x/2;
+                } else {
+                    yaw = 0;
+                }
+            } else {
+                // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
+                if (Math.abs(gamepad1.left_stick_y) >= 0.3) {
+                    axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
+                } else {
+                    axial = 0;
+                }
+                if (Math.abs(gamepad1.left_stick_x) >= 0.3) {
+                    lateral = gamepad1.left_stick_x;
+                } else {
+                    lateral = 0;
+                }
+                if (Math.abs(gamepad1.right_stick_x) >= 0.3) {
+                    yaw = gamepad1.right_stick_x;
+                } else {
+                    yaw = 0;
+                }
             }
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.

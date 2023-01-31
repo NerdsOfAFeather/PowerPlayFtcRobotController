@@ -161,4 +161,30 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
         rightClawServo.setPosition(0.0);
         sleep(500);
     }
+
+    public void driveForwardSlow(double seconds){
+        leftFrontDrive.setPower(AUTO_SPEED/2);
+        leftBackDrive.setPower(AUTO_SPEED/2);
+        rightFrontDrive.setPower(AUTO_SPEED/2);
+        rightBackDrive.setPower(AUTO_SPEED/2);
+        sleep((long) (seconds * 1000));
+        leftFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+        sleep(250);
+    }
+
+    public void driveBackwardSlow(double seconds){
+        leftFrontDrive.setPower(-AUTO_SPEED/2);
+        leftBackDrive.setPower(-AUTO_SPEED/2);
+        rightFrontDrive.setPower(-AUTO_SPEED/2);
+        rightBackDrive.setPower(-AUTO_SPEED/2);
+        sleep((long) (seconds * 1000));
+        leftFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        rightBackDrive.setPower(0);
+        sleep(250);
+    }
 }
