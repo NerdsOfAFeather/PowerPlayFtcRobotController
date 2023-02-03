@@ -267,11 +267,11 @@ public class PowerPlayAutoColorSensor extends PowerPlayConfig {
     }
 
     private int getDesiredLocation() {
-        if (color.red() >= 110) {
-            return 1;
-        } else if (Math.max(Math.max(color.red(), color.blue()), color.green()) == color.green()) {
+        if (Math.max(Math.max(color.red(), color.blue()), color.green()) == color.red()) { //Red?
             return 2;
-        } else {
+        } else if (Math.max(Math.max(color.red(), color.blue()), color.green()) == color.blue()) { // Blue?
+            return 1;
+        } else { //Green?
             return 3;
         }
     }
