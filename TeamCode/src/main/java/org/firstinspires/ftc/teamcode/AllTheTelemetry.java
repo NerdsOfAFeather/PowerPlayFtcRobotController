@@ -24,7 +24,9 @@ public class AllTheTelemetry extends PowerPlayConfig{
                     .addData("Green", color.green())
                     .addData("Blue", color.blue())
                     .addData("ARGB", color.argb());
-            telemetry.addData("Magnetic Limit Switch", limit.getValue());
+            telemetry.addLine("Magnetic Limit Switches")
+                    .addData("1", limit1.getValue())
+                    .addData("2", limit2.getValue());
             telemetry.update();
         }
     }

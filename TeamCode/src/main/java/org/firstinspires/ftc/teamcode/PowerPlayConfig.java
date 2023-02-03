@@ -21,7 +21,8 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
     public DcMotor liftLiftMotor = null;
     public Servo rightClawServo = null;
     public Servo leftClawServo = null;
-    public TouchSensor limit;
+    public TouchSensor limit1;
+    public TouchSensor limit2;
     public ColorSensor color;
     public IMU imu;
 
@@ -44,7 +45,8 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
         rightClawServo = hardwareMap.get(Servo.class, "RightClawServo");
         leftClawServo = hardwareMap.get(Servo.class, "LeftClawServo");
         color = hardwareMap.get(ColorSensor.class, "Color");
-        limit = hardwareMap.get(TouchSensor.class, "limit");
+        limit1 = hardwareMap.get(TouchSensor.class, "limit1");
+        limit2 = hardwareMap.get(TouchSensor.class, "limit2");
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
@@ -189,5 +191,21 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
         rightFrontDrive.setPower(0);
         rightBackDrive.setPower(0);
         sleep(250);
+    }
+
+    public void goToStage(int stage, boolean auto){
+        if (stage == 0 && auto){
+            while (!limit1.isPressed()){
+                liftLiftMotor.setPower(-0.8);
+            }
+            liftLiftMotor.setPower(0.0);
+        } else if (stage == 1 && auto){
+            while (!limit2.isPressed()){
+                liftLiftMotor.setPower(0.5);
+            }
+        } else {
+            telemetry.addData("Error", "Stage not programmed (yet)");
+            telemetry.update();
+        }
     }
 }
