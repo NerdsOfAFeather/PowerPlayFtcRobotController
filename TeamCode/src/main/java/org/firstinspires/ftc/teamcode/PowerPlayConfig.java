@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 /** Created by Gavin */
 @TeleOp(name="PowerPlayConfig", group="Linear Opmode")
@@ -20,6 +21,7 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
     public DcMotor liftLiftMotor = null;
     public Servo rightClawServo = null;
     public Servo leftClawServo = null;
+    public TouchSensor limit;
     public ColorSensor color;
     public IMU imu;
 
@@ -42,6 +44,7 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
         rightClawServo = hardwareMap.get(Servo.class, "RightClawServo");
         leftClawServo = hardwareMap.get(Servo.class, "LeftClawServo");
         color = hardwareMap.get(ColorSensor.class, "Color");
+        limit = hardwareMap.get(TouchSensor.class, "limit");
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
