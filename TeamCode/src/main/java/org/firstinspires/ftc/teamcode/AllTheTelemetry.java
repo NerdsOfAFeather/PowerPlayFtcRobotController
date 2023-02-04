@@ -7,7 +7,9 @@ public class AllTheTelemetry extends PowerPlayConfig{
 
     @Override
     public void runOpMode() {
-
+        initDriveHardware();
+        resetlift();
+        waitForStart();
         while (opModeIsActive()) {
             telemetry.addData("Left Trigger", gamepad1.left_trigger);
             telemetry.addData("Right Trigger", gamepad1.right_trigger);
@@ -24,7 +26,9 @@ public class AllTheTelemetry extends PowerPlayConfig{
                     .addData("Green", color.green())
                     .addData("Blue", color.blue())
                     .addData("ARGB", color.argb());
-            telemetry.addData("Magnetic Limit Switch", limit.getValue());
+            telemetry.addData("DesiredPosition", getDesiredLocation());
+            telemetry.addData("Magnetic Limit Switch", limit1.getValue());
+            telemetry.addData("Lift Motor", liftLiftMotor.getCurrentPosition());
             telemetry.update();
         }
     }

@@ -49,13 +49,6 @@ public class PowerPlayAutoNoCone extends PowerPlayConfig {
 
         initDriveHardware();
         chooseProgram();
-
-        while (opModeIsActive()){
-            telemetry.addData("Red", color.red());
-            telemetry.addData("Blue", color.blue());
-            telemetry.addData("Green", color.green());
-            telemetry.update();
-        }
     }
 
     public void chooseProgram(){
@@ -103,28 +96,23 @@ public class PowerPlayAutoNoCone extends PowerPlayConfig {
         liftUp(3);
         sleep(250);
         driveForward(1.5);
-        //int desiredLocation = getDesiredLocation();
-        if (color.red() >= 100) { // Position 1?
+        int desiredLocation = getDesiredLocation();
+        if (desiredLocation == 1) { // Position 1?
             telemetry.addData("Detected", "Red");
             telemetry.update();
             driveForward(.5);
             driveBackwards(.5);
-            driveLeft(3);
-        } else if (Math.max(color.green(), color.blue()) == color.green()) { // Position 2?
+            driveRight(3);
+        } else if (desiredLocation == 2) { // Position 2?
             telemetry.addData("Detected", "Green");
-            telemetry.addData("Red", color.red());
-            telemetry.addData("Green", color.green());
-            telemetry.addData("Blue", color.blue());
-            telemetry.addData("ARGB", color.argb());
             telemetry.update();
-            driveForward(2);
-            sleep(10000);
+            driveForward(1);
         } else { // Position 3?
             telemetry.addData("Detected", "Blue");
             telemetry.update();
             driveForward(.5);
             driveBackwards(.5);
-            driveRight(3);
+            driveLeft(3);
         }
     }
 
@@ -135,28 +123,23 @@ public class PowerPlayAutoNoCone extends PowerPlayConfig {
         liftUp(3);
         sleep(250);
         driveForward(1.5);
-        //int desiredLocation = getDesiredLocation();
-        if (color.red() >= 120) { // Position 1?
+        int desiredLocation = getDesiredLocation();
+        if (desiredLocation == 1) { // Position 1?
             telemetry.addData("Detected", "Red");
             telemetry.update();
             driveForward(.5);
             driveBackwards(.5);
-            driveRight(3);
-        } else if (Math.max(color.green(), color.blue()) == color.green()) { // Position 2?
+            driveLeft(3);
+        } else if (desiredLocation == 2) { // Position 2?
             telemetry.addData("Detected", "Green");
-            telemetry.addData("Red", color.red());
-            telemetry.addData("Green", color.green());
-            telemetry.addData("Blue", color.blue());
-            telemetry.addData("ARGB", color.argb());
             telemetry.update();
-            driveForward(2);
-            sleep(10000);
+            driveForward(1);
         } else { // Position 3?
             telemetry.addData("Detected", "Blue");
             telemetry.update();
             driveForward(.5);
             driveBackwards(.5);
-            driveLeft(3);
+            driveRight(3);
         }
     }
 
@@ -167,70 +150,50 @@ public class PowerPlayAutoNoCone extends PowerPlayConfig {
         liftUp(3);
         sleep(250);
         driveForward(1.5);
-        //int desiredLocation = getDesiredLocation();
-        if (color.red() >= 100) { // Position 1?
+        int desiredLocation = getDesiredLocation();
+        if (desiredLocation == 1) { // Position 1?
             telemetry.addData("Detected", "Red");
             telemetry.update();
             driveForward(.5);
             driveBackwards(.5);
-            driveRight(3);
-        } else if (Math.max(color.green(), color.blue()) == color.green()) { // Position 2?
+            driveLeft(3);
+        } else if (desiredLocation == 2) { // Position 2?
             telemetry.addData("Detected", "Green");
-            telemetry.addData("Red", color.red());
-            telemetry.addData("Green", color.green());
-            telemetry.addData("Blue", color.blue());
-            telemetry.addData("ARGB", color.argb());
             telemetry.update();
-            driveForward(2);
-            sleep(10000);
+            driveForward(1);
         } else { // Position 3?
             telemetry.addData("Detected", "Blue");
             telemetry.update();
             driveForward(.5);
             driveBackwards(.5);
-            driveLeft(3);
+            driveRight(3);
         }
     }
 
-    public void redRight(){
+    public void redRight() {
         waitForStart();
         clampClose();
         sleep(500);
         liftUp(3);
         sleep(250);
         driveForward(1.5);
-        //int desiredLocation = getDesiredLocation();
-        if (color.red() >= 100) { // Position 1?
+        int desiredLocation = getDesiredLocation();
+        if (desiredLocation == 1) { // Position 1?
             telemetry.addData("Detected", "Red");
             telemetry.update();
             driveForward(.5);
             driveBackwards(.5);
-            driveLeft(3);
-        } else if (Math.max(color.green(), color.blue()) == color.green()) { // Position 2?
+            driveRight(3);
+        } else if (desiredLocation == 2) { // Position 2?
             telemetry.addData("Detected", "Green");
-            telemetry.addData("Red", color.red());
-            telemetry.addData("Green", color.green());
-            telemetry.addData("Blue", color.blue());
-            telemetry.addData("ARGB", color.argb());
             telemetry.update();
-            driveForward(2);
-            sleep(10000);
+            driveForward(1);
         } else { // Position 3?
             telemetry.addData("Detected", "Blue");
             telemetry.update();
             driveForward(.5);
             driveBackwards(.5);
-            driveRight(3);
-        }
-    }
-
-    private int getDesiredLocation() {
-        if (Math.max(Math.max(color.red(), color.blue()), color.green()) == color.red()) {
-            return 1;
-        } else if (Math.max(Math.max(color.red(), color.blue()), color.green()) == color.green()) {
-            return 2;
-        } else {
-            return 3;
+            driveLeft(3);
         }
     }
 }

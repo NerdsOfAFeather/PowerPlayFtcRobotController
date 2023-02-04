@@ -21,7 +21,7 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
     public DcMotor liftLiftMotor = null;
     public Servo rightClawServo = null;
     public Servo leftClawServo = null;
-    public TouchSensor limit;
+    public TouchSensor limit1;
     public ColorSensor color;
     public IMU imu;
 
@@ -44,7 +44,7 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
         rightClawServo = hardwareMap.get(Servo.class, "RightClawServo");
         leftClawServo = hardwareMap.get(Servo.class, "LeftClawServo");
         color = hardwareMap.get(ColorSensor.class, "Color");
-        limit = hardwareMap.get(TouchSensor.class, "limit");
+        limit1 = hardwareMap.get(TouchSensor.class, "limit1");
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
@@ -189,5 +189,48 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
         rightFrontDrive.setPower(0);
         rightBackDrive.setPower(0);
         sleep(250);
+    }
+
+    public void goToStage(int stage, boolean auto) {
+        if (stage == 0 && auto) {
+            while (!limit1.isPressed()) {
+                liftLiftMotor.setPower(-0.8);
+            }
+            liftLiftMotor.setPower(0.0);
+        } else if (stage == 1 && auto) {
+            while (opModeIsActive()) {
+                liftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                if (liftLiftMotor.getCurrentPosition() >= -11300) {
+                    telemetry.addData("Position", liftLiftMotor.getCurrentPosition());
+                    liftLiftMotor.setPower(0.8);
+                } else {
+                    liftLiftMotor.setPower(0.0);
+                    break;
+                }
+            }
+            liftLiftMotor.setPower(0.0);
+        } else {
+            telemetry.addData("Error", "Stage not programmed (yet)");
+            telemetry.update();
+        }
+    }
+
+    public int getDesiredLocation() {
+        int max = Math.max(Math.max(color.red(), color.blue()), color.green());
+        int red = color.red();
+        int green = color.green();
+        int blue = color.blue();
+        if (max == red) { //Red?
+            return 1;
+        } else if (max == green) { // Green?
+            return 2;
+        } else { //Blue?
+            return 3;
+        }
+    }
+
+    public void resetlift(){
+        liftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        liftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 }

@@ -84,23 +84,7 @@ public class PowerPlayTeleOp1P extends PowerPlayConfig {
     @Override
     public void runOpMode() {
 
-        // Initialize the hardware variables. Note that the strings used here must correspond
-        // to the names assigned during the robot configuration step on the DS or RC devices.
-        leftFrontDrive = hardwareMap.get(DcMotor.class, "FrontLeftDrive");
-        leftBackDrive = hardwareMap.get(DcMotor.class, "BackLeftDrive");
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "FrontRightDrive");
-        rightBackDrive = hardwareMap.get(DcMotor.class, "BackRightDrive");
-        liftLiftMotor = hardwareMap.get(DcMotor.class, "LiftLiftMotor");
-        rightClawServo = hardwareMap.get(Servo.class, "RightClawServo");
-        leftClawServo = hardwareMap.get(Servo.class, "LeftClawServo");
-
-        // Most robots need the motors on one side to be reversed to drive forward.
-        // When you first test your robot, push the left joystick forward
-        // and flip the direction ( FORWARD <-> REVERSE ) of any wheel that runs backwards
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        initDriveHardware();
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Bingus", "Bongus");
@@ -112,13 +96,16 @@ public class PowerPlayTeleOp1P extends PowerPlayConfig {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             double max;
-
+            double leftFrontPower;
+            double rightFrontPower;
+            double leftBackPower;
+            double rightBackPower;
+            double liftLiftPower;
             if (gamepad1.left_bumper && !slowMode){
                 slowMode = true;
             } else if (gamepad1.left_bumper && slowMode){
                 slowMode = false;
             }
-
             if (slowMode) {
 
                 // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
@@ -155,26 +142,18 @@ public class PowerPlayTeleOp1P extends PowerPlayConfig {
                     yaw = 0;
                 }
             }
-
-            // Combine the joystick requests for each axis-motion to determine each wheel's power.
-            // Set up a variable for each drive wheel to save the power level for telemetry.
-            double leftFrontPower  = axial + lateral + yaw;
-            double rightFrontPower = axial - lateral - yaw;
-            double leftBackPower   = axial - lateral + yaw;
-            double rightBackPower  = axial + lateral - yaw;
-            double liftLiftPower;
-
-            // Normalize the values so no wheel power exceeds 100%
-            // This ensures that the robot maintains the desired motion.
+            leftFrontPower = axial + lateral + yaw;
+            rightFrontPower = axial - lateral - yaw;
+            leftBackPower = axial - lateral + yaw;
+            rightBackPower = axial + lateral - yaw;
             max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
             max = Math.max(max, Math.abs(leftBackPower));
             max = Math.max(max, Math.abs(rightBackPower));
-
             if (max > 1.0) {
-                leftFrontPower  /= max;
+                leftFrontPower /= max;
                 rightFrontPower /= max;
-                leftBackPower   /= max;
-                rightBackPower  /= max;
+                leftBackPower /= max;
+                rightBackPower /= max;
             }
 
             // This is test code:
@@ -194,23 +173,26 @@ public class PowerPlayTeleOp1P extends PowerPlayConfig {
             rightBackPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
             */
 
-            if (gamepad1.dpad_up){
-                liftLiftPower = 1.0;
-            }else if (gamepad1.dpad_down){
-                liftLiftPower = -1.0;
-            }else{
-                liftLiftPower = 0.0;
+            if (Math.abs(gamepad2.left_stick_y) >= 0.3) {
+                liftLiftPower = (gamepad2.left_stick_y/1.25);
+            } else {
+                liftLiftPower = 0;
             }
 
-
-            if (gamepad1.left_trigger >= 0.4){
+            if (gamepad2.left_trigger >= 0.4){
                 leftClawServo.setPosition(1.0);
                 rightClawServo.setPosition(0.0);
-            }else if (gamepad1.right_trigger >= 0.4){
+            }
+            if (gamepad2.right_trigger >= 0.4){
                 leftClawServo.setPosition(0.0);
                 rightClawServo.setPosition(1.0);
             }
+            /*
+            if (gamepad2.dpad_down){
+                goingDown = true;
+            }
 
+             */
 
             // Send calculated power to wheels
             leftFrontDrive.setPower(leftFrontPower);
@@ -218,6 +200,7 @@ public class PowerPlayTeleOp1P extends PowerPlayConfig {
             leftBackDrive.setPower(leftBackPower);
             rightBackDrive.setPower(rightBackPower);
             liftLiftMotor.setPower(liftLiftPower);
+            //liftGoDown();
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Left Trigger", gamepad1.left_trigger);
@@ -228,12 +211,14 @@ public class PowerPlayTeleOp1P extends PowerPlayConfig {
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
             // Show joystick information as some other illustrative data
-            telemetry.addLine("left joystick | ")
+            telemetry.addLine("Left joystick | ")
                     .addData("x", gamepad1.left_stick_x)
                     .addData("y", gamepad1.left_stick_y);
-            telemetry.addLine("right joystick | ")
+            telemetry.addLine("Light joystick | ")
                     .addData("x", gamepad1.right_stick_x)
                     .addData("y", gamepad1.right_stick_y);
+            telemetry.addData("Slow mode", slowMode);
             telemetry.update();
         }
-    }}
+    }
+}

@@ -47,16 +47,16 @@ public class PowerPlayAutoColorSensor extends PowerPlayConfig {
         telemetry.update();
 
         initDriveHardware();
-        chooseProgram();
+        resetlift();
+        waitForStart();
+        goToStage(1, true);
+        //chooseProgram();
     }
 
     public void chooseProgram(){
         while (!isStarted()) {
             telemetry.addData("Please select a Auto to run", "");
             telemetry.addData( "A - Blue Left | B - Blue Right | X - Red Left | Y - Red Right", "");
-            //telemetry.addData("Red", color.red());
-            //telemetry.addData("Green", color.green());
-            //telemetry.addData("Blue", color.blue());
             telemetry.update();
             if (gamepad1.a) {
                 telemetry.addData("RobotPosition", "Blue Left");
@@ -78,6 +78,15 @@ public class PowerPlayAutoColorSensor extends PowerPlayConfig {
                 telemetry.update();
                 redRight();
                 break;
+            } else if (gamepad1.dpad_down) {
+                waitForStart();
+                while (opModeIsActive()){
+                    telemetry.addData("Red", color.red());
+                    telemetry.addData("Green", color.green());
+                    telemetry.addData("Blue", color.blue());
+                    telemetry.addData("ARGB", color.argb());
+                    telemetry.update();
+                }
             }
         }
     }
@@ -86,7 +95,7 @@ public class PowerPlayAutoColorSensor extends PowerPlayConfig {
         waitForStart();
         clampClose();
         liftUp(3);
-        driveForward(2.25);
+        driveForward(1.5);
         int desiredLocation = getDesiredLocation();
         if (desiredLocation == 1) { // Position 1?
             telemetry.addData("Detected", "Red");
@@ -129,7 +138,7 @@ public class PowerPlayAutoColorSensor extends PowerPlayConfig {
         waitForStart();
         clampClose();
         liftUp(3);
-        driveForward(2.25);
+        driveForward(1.5);
         int desiredLocation = getDesiredLocation();
         if (desiredLocation == 1) { // Position 1?
             telemetry.addData("Detected", "Red");
@@ -179,7 +188,7 @@ public class PowerPlayAutoColorSensor extends PowerPlayConfig {
         waitForStart();
         clampClose();
         liftUp(3);
-        driveForward(2.25);
+        driveForward(1.5);
         int desiredLocation = getDesiredLocation();
         if (desiredLocation == 1) { // Position 1?
             telemetry.addData("Detected", "Red");
@@ -221,7 +230,7 @@ public class PowerPlayAutoColorSensor extends PowerPlayConfig {
         waitForStart();
         clampClose();
         liftUp(3);
-        driveForward(2.25);
+        driveForward(1.5);
         int desiredLocation = getDesiredLocation();
         if (desiredLocation == 1) { // Position 1?
             telemetry.addData("Detected", "Red");
@@ -263,16 +272,6 @@ public class PowerPlayAutoColorSensor extends PowerPlayConfig {
             clampOpen();
             driveBackwardSlow(.5);
             driveRight(7);
-        }
-    }
-
-    private int getDesiredLocation() {
-        if (Math.max(Math.max(color.red(), color.blue()), color.green()) == color.red()) { //Red?
-            return 2;
-        } else if (Math.max(Math.max(color.red(), color.blue()), color.green()) == color.blue()) { // Blue?
-            return 1;
-        } else { //Green?
-            return 3;
         }
     }
 }

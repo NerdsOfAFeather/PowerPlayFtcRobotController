@@ -207,4 +207,5 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
             telemetry.addData("Slow mode", slowMode);
             telemetry.update();
         }
-    }}
+    }
+}
