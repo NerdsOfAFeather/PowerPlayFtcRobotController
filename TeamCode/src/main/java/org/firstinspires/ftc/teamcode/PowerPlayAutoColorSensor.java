@@ -47,10 +47,8 @@ public class PowerPlayAutoColorSensor extends PowerPlayConfig {
         telemetry.update();
 
         initDriveHardware();
-        resetlift();
-        waitForStart();
-        goToStage(1, true);
-        //chooseProgram();
+        initLift();
+        chooseProgram();
     }
 
     public void chooseProgram(){
@@ -101,23 +99,27 @@ public class PowerPlayAutoColorSensor extends PowerPlayConfig {
             telemetry.addData("Detected", "Red");
             telemetry.update();
             driveForward(.5);
-             driveBackwards(.7);
+             driveBackwards(.5);
             driveRight(2.5);
             liftUp(8); //All the way
             driveRight(1.25);
+            liftDown(1.0);
             clampOpen();
+            driveBackwardSlow(.6);
             driveLeft(7);
             driveForward(1);
         } else if (desiredLocation == 2) { // Position 2?
             telemetry.addData("Detected", "Green");
             telemetry.update();
             driveForward(.5);
-             driveBackwards(.7);
+             driveBackwards(.5);
             driveRight(2.5);
             liftUp(8); //All the way
             driveRight(1.25);
-             
+            driveForwardSlow(.6);
+            liftDown(1.0);
             clampOpen();
+            driveBackwardSlow(.6);
             driveLeft(3.5);
         } else { // Position 3?
             telemetry.addData("Detected", "Blue");
@@ -127,8 +129,9 @@ public class PowerPlayAutoColorSensor extends PowerPlayConfig {
             driveRight(2.5);
             liftUp(8); //All the way
             driveRight(1.25);
-             
+            liftDown(1.0);
             clampOpen();
+            driveBackwardSlow(.6);
             driveLeft(7);
         }
 
@@ -194,7 +197,7 @@ public class PowerPlayAutoColorSensor extends PowerPlayConfig {
             telemetry.addData("Detected", "Red");
             telemetry.update();
             driveForward(.5);
-             driveBackwards(.7);
+            driveBackwards(.7);
             driveRight(2.5);
             liftUp(8); //All the way
             driveRight(1.25);
@@ -240,7 +243,7 @@ public class PowerPlayAutoColorSensor extends PowerPlayConfig {
             driveLeft(2.5);
             liftUp(8); //All the way
             driveLeft(1.25);
-            driveForwardSlow(.6);
+            driveForwardSlow(.5);
             liftDown(1);
             clampOpen();
             driveBackwardSlow(.5);
@@ -254,7 +257,7 @@ public class PowerPlayAutoColorSensor extends PowerPlayConfig {
             driveLeft(2.5);
             liftUp(8); //All the way
             driveLeft(1.25);
-            driveForwardSlow(.6);
+            driveForwardSlow(.5);
             liftDown(1);
             clampOpen();
             driveBackwardSlow(.5);

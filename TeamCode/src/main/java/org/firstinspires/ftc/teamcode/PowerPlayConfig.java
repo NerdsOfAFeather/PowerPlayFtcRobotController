@@ -25,6 +25,8 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
     public ColorSensor color;
     public IMU imu;
 
+    public boolean goingDown = false;
+
     static final double AUTO_SPEED = 0.6;
 
     RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
@@ -56,6 +58,7 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
+        liftLiftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
@@ -138,10 +141,12 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
     }
 
     public void liftUp(double seconds){
+        liftLiftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftLiftMotor.setPower(-0.5);
         sleep((long) (seconds * 1000));
         liftLiftMotor.setPower(0);
         sleep(250);
+        liftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void liftDown(double seconds){
@@ -199,7 +204,6 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
             liftLiftMotor.setPower(0.0);
         } else if (stage == 1 && auto) {
             while (opModeIsActive()) {
-                liftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 if (liftLiftMotor.getCurrentPosition() >= -11300) {
                     telemetry.addData("Position", liftLiftMotor.getCurrentPosition());
                     liftLiftMotor.setPower(0.8);
@@ -229,8 +233,14 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
         }
     }
 
-    public void resetlift(){
+    public void initLift(){
         liftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+    public void liftGoDown(){
+        if (!limit1.isPressed() && goingDown){
+            liftLiftMotor.setPower(0.0);
+        }
     }
 }

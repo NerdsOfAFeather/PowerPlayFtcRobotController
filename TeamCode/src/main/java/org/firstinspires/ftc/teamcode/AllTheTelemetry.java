@@ -8,7 +8,7 @@ public class AllTheTelemetry extends PowerPlayConfig{
     @Override
     public void runOpMode() {
         initDriveHardware();
-        resetlift();
+        initLift();
         waitForStart();
         while (opModeIsActive()) {
             telemetry.addData("Left Trigger", gamepad1.left_trigger);

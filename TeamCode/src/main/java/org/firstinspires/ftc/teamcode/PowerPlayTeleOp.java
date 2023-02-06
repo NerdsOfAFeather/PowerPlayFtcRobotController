@@ -166,20 +166,18 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
                 liftLiftPower = 0;
             }
 
-            if (gamepad2.left_trigger >= 0.4){
+            if (gamepad2.left_trigger >= 0.2){
                 leftClawServo.setPosition(1.0);
                 rightClawServo.setPosition(0.0);
             }
-            if (gamepad2.right_trigger >= 0.4){
+            if (gamepad2.right_trigger >= 0.2){
                 leftClawServo.setPosition(0.0);
                 rightClawServo.setPosition(1.0);
             }
-            /*
+
             if (gamepad2.dpad_down){
                 goingDown = true;
             }
-
-             */
 
             // Send calculated power to wheels
             leftFrontDrive.setPower(leftFrontPower);

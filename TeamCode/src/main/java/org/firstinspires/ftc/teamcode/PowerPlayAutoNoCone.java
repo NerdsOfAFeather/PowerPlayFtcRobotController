@@ -38,7 +38,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 /** Created by Gavin */
 @Autonomous(name = "PowerPlay Auto Parking Only", group = "Auto")
-@Disabled
+//@Disabled
 public class PowerPlayAutoNoCone extends PowerPlayConfig {
 
     @Override
@@ -48,7 +48,31 @@ public class PowerPlayAutoNoCone extends PowerPlayConfig {
         telemetry.update();
 
         initDriveHardware();
-        chooseProgram();
+        //chooseProgram();
+        waitForStart();
+        clampClose();
+        sleep(500);
+        liftUp(3);
+        sleep(250);
+        driveForward(1.5);
+        int desiredLocation = getDesiredLocation();
+        if (desiredLocation == 1) { // Position 1?
+            telemetry.addData("Detected", "Red");
+            telemetry.update();
+            driveForward(.5);
+            driveBackwards(.2);
+            driveLeft(2.5);
+        } else if (desiredLocation == 2) { // Position 2?
+            telemetry.addData("Detected", "Green");
+            telemetry.update();
+            driveForward(1);
+        } else { // Position 3?
+            telemetry.addData("Detected", "Blue");
+            telemetry.update();
+            driveForward(.5);
+            driveBackwards(.2);
+            driveRight(2);
+        }
     }
 
     public void chooseProgram(){
@@ -101,8 +125,8 @@ public class PowerPlayAutoNoCone extends PowerPlayConfig {
             telemetry.addData("Detected", "Red");
             telemetry.update();
             driveForward(.5);
-            driveBackwards(.5);
-            driveRight(3);
+            driveBackwards(.2);
+            driveLeft(2.5);
         } else if (desiredLocation == 2) { // Position 2?
             telemetry.addData("Detected", "Green");
             telemetry.update();
@@ -111,8 +135,8 @@ public class PowerPlayAutoNoCone extends PowerPlayConfig {
             telemetry.addData("Detected", "Blue");
             telemetry.update();
             driveForward(.5);
-            driveBackwards(.5);
-            driveLeft(3);
+            driveBackwards(.2);
+            driveRight(2.5);
         }
     }
 
@@ -128,7 +152,7 @@ public class PowerPlayAutoNoCone extends PowerPlayConfig {
             telemetry.addData("Detected", "Red");
             telemetry.update();
             driveForward(.5);
-            driveBackwards(.5);
+            driveBackwards(.2);
             driveLeft(3);
         } else if (desiredLocation == 2) { // Position 2?
             telemetry.addData("Detected", "Green");
@@ -138,7 +162,7 @@ public class PowerPlayAutoNoCone extends PowerPlayConfig {
             telemetry.addData("Detected", "Blue");
             telemetry.update();
             driveForward(.5);
-            driveBackwards(.5);
+            driveBackwards(.2);
             driveRight(3);
         }
     }
@@ -155,8 +179,8 @@ public class PowerPlayAutoNoCone extends PowerPlayConfig {
             telemetry.addData("Detected", "Red");
             telemetry.update();
             driveForward(.5);
-            driveBackwards(.5);
-            driveLeft(3);
+            driveBackwards(.2);
+            driveLeft(2.5);
         } else if (desiredLocation == 2) { // Position 2?
             telemetry.addData("Detected", "Green");
             telemetry.update();
@@ -165,8 +189,8 @@ public class PowerPlayAutoNoCone extends PowerPlayConfig {
             telemetry.addData("Detected", "Blue");
             telemetry.update();
             driveForward(.5);
-            driveBackwards(.5);
-            driveRight(3);
+            driveBackwards(.2);
+            driveRight(2.5);
         }
     }
 
@@ -182,8 +206,8 @@ public class PowerPlayAutoNoCone extends PowerPlayConfig {
             telemetry.addData("Detected", "Red");
             telemetry.update();
             driveForward(.5);
-            driveBackwards(.5);
-            driveRight(3);
+            driveBackwards(.2);
+            driveLeft(2.5);
         } else if (desiredLocation == 2) { // Position 2?
             telemetry.addData("Detected", "Green");
             telemetry.update();
@@ -192,8 +216,8 @@ public class PowerPlayAutoNoCone extends PowerPlayConfig {
             telemetry.addData("Detected", "Blue");
             telemetry.update();
             driveForward(.5);
-            driveBackwards(.5);
-            driveLeft(3);
+            driveBackwards(.2);
+            driveRight(2.5);
         }
     }
 }
