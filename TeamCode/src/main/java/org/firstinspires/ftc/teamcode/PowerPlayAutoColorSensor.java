@@ -132,7 +132,7 @@ public class PowerPlayAutoColorSensor extends PowerPlayConfig {
             liftDown(1.0);
             clampOpen();
             driveBackwardSlow(.6);
-            driveLeft(7);
+            driveLeft(7);//More?
         }
 
     }
