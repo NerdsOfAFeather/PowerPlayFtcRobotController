@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -167,6 +168,18 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
                 liftLiftPower = 0;
             }
 
+            if (gamepad2.right_bumper){
+                if (desiredLiftPosition == -2){
+                    desiredLiftPosition = 0;
+                }
+                desiredLiftPosition ++;
+            } else if (gamepad2.left_bumper){
+                if (desiredLiftPosition == -2){
+                    desiredLiftPosition = 1;
+                }
+                desiredLiftPosition --;
+            }
+
             if (gamepad2.left_trigger >= 0.2){
                 leftClawServo.setPosition(1.0);
                 rightClawServo.setPosition(0.0);
@@ -175,12 +188,7 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
                 leftClawServo.setPosition(0.0);
                 rightClawServo.setPosition(1.0);
             }
-
-            if (gamepad2.right_bumper) {
-                if (desiredLiftPosition == -2){
-                    if (liftLiftMotor.getCurrentPosition() )
-                }
-            }
+            liftMoving = liftLiftMotor.getCurrentPosition() != desiredLiftPosition;
 
             // Send calculated power to wheels
             leftFrontDrive.setPower(leftFrontPower);
@@ -189,6 +197,10 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
             rightBackDrive.setPower(rightBackPower);
             liftLiftMotor.setPower(liftLiftPower);
 
+            if (liftMoving){
+                liftLiftMotor.setTargetPosition(desiredLift());
+                liftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
             // Show the elapsed game time and wheel power.
             telemetry.addData("Left Trigger", gamepad1.left_trigger);
             telemetry.addData("Right Trigger", gamepad1.right_trigger);

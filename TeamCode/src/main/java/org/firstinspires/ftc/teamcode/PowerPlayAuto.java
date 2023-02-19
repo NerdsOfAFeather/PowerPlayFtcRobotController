@@ -36,7 +36,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 import java.util.List;
 
-/* This file illustrates the concept of driving a path based on time.
+/*
    The code is structured as a LinearOpMode
  */
 
@@ -53,8 +53,9 @@ public class PowerPlayAuto extends PowerPlayConfig {
         telemetry.update();
 
         initDriveHardware();
-        //initVuforia();
-        //initTfod();
+        initLift();
+        initVuforia();
+        initTfod();
 
         //Make a loop for tfod
 
@@ -119,13 +120,13 @@ public class PowerPlayAuto extends PowerPlayConfig {
     public void blueLeft(){
         waitForStart();
         if (getRecognition().equals("one")){
-            telemetry.addData("Running Code: ", "Blue Left One");
+            telemetry.addData("Running Code", "Blue Left One");
             telemetry.update();
         } else if (getRecognition().equals("two")){
-            telemetry.addData("Running Code: ", "Blue Left Two");
+            telemetry.addData("Running Code", "Blue Left Two");
             telemetry.update();
         } else if (getRecognition().equals("three")){
-            telemetry.addData("Running Code: ", "Blue Left Three");
+            telemetry.addData("Running Code", "Blue Left Three");
             telemetry.update();
         }
     }
@@ -133,13 +134,13 @@ public class PowerPlayAuto extends PowerPlayConfig {
     public void blueRight(){
         waitForStart();
         if (getRecognition().equals("one")){
-            telemetry.addData("Running Code: ", "Blue Right One");
+            telemetry.addData("Running Code", "Blue Right One");
             telemetry.update();
         } else if (getRecognition().equals("two")){
-            telemetry.addData("Running Code: ", "Blue Right Two");
+            telemetry.addData("Running Code", "Blue Right Two");
             telemetry.update();
         } else if (getRecognition().equals("three")){
-            telemetry.addData("Running Code: ", "Blue Right Three");
+            telemetry.addData("Running Code", "Blue Right Three");
             telemetry.update();
         }
     }
@@ -147,13 +148,13 @@ public class PowerPlayAuto extends PowerPlayConfig {
     public void redLeft(){
         waitForStart();
         if (getRecognition().equals("one")){
-            telemetry.addData("Running Code: ", "Red Left One");
+            telemetry.addData("Running Code", "Red Left One");
             telemetry.update();
         } else if (getRecognition().equals("two")){
-            telemetry.addData("Running Code: ", "Red Left Two");
+            telemetry.addData("Running Code", "Red Left Two");
             telemetry.update();
         } else if (getRecognition().equals("three")){
-            telemetry.addData("Running Code: ", "Red Left Three");
+            telemetry.addData("Running Code", "Red Left Three");
             telemetry.update();
         }
     }
@@ -161,13 +162,13 @@ public class PowerPlayAuto extends PowerPlayConfig {
     public void redRight(){
         waitForStart();
         if (getRecognition().equals("one")){
-            telemetry.addData("Running Code: ", "Red Right One");
+            telemetry.addData("Running Code", "Red Right One");
             telemetry.update();
         } else if (getRecognition().equals("two")){
-            telemetry.addData("Running Code: ", "Red Right Two");
+            telemetry.addData("Running Code", "Red Right Two");
             telemetry.update();
         } else if (getRecognition().equals("three")){
-            telemetry.addData("Running Code: ", "Red Right Three");
+            telemetry.addData("Running Code", "Red Right Three");
             telemetry.update();
         }
     }

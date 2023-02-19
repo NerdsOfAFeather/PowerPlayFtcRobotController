@@ -257,11 +257,4 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
             return liftLiftMotor.getCurrentPosition();
         }
     }
-    public boolean liftMoving(){
-        int liftPosition = liftLiftMotor.getCurrentPosition();
-        if (desiredLiftPosition != -2){
-
-        }
-        return true;
-    }
 }
