@@ -173,7 +173,9 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
                 desiredLiftPosition --;
             }
 
-            liftMoving = liftLiftMotor.getCurrentPosition() != desiredLiftPosition;
+            if (desiredLiftPosition != 2){
+                liftMoving = liftLiftMotor.getCurrentPosition() != desiredLiftPosition;
+            }
             if (Math.abs(gamepad2.left_stick_y) >= 0.3) {
                 desiredLiftPosition = -2;
                 liftLiftPower = (gamepad2.left_stick_y/1.25);
@@ -185,7 +187,10 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
                 liftLiftPower = 0;
             }
 
-
+            if ((liftLiftMotor.getPosition()<=0 && liftLiftPower > 0) || 
+               (liftLiftMotor.getPosition()>=-4900 && liftLiftPower < 0)){
+                
+            }
 
             if (gamepad2.left_trigger >= 0.2){
                 leftClawServo.setPosition(1.0);
