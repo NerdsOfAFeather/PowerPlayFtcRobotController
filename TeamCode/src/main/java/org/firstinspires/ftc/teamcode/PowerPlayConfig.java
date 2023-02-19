@@ -260,8 +260,10 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
 
     /*
     public void encoderDrive(double speed, double leftInches, double rightInches, double timeoutS) {
-        int newLeftTarget;
-        int newRightTarget;
+        int newFrontLeftTarget;
+        int newFrontRightTarget;
+        int newBackLeftTarget;
+        int newBackRightTarget;
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
@@ -269,10 +271,16 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
             // Determine new target position, and pass to motor controller
             newLeftTarget = leftDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
             newRightTarget = rightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+            newLeftTarget = leftDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+            newRightTarget = rightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+            leftDrive.setTargetPosition(newLeftTarget);
+            rightDrive.setTargetPosition(newRightTarget);
             leftDrive.setTargetPosition(newLeftTarget);
             rightDrive.setTargetPosition(newRightTarget);
 
             // Turn On RUN_TO_POSITION
+            leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
@@ -289,7 +297,7 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (leftDrive.isBusy() && rightDrive.isBusy())) {
+                    (leftDrive.isBusy() || rightDrive.isBusy())) {
 
                 // Display it for the driver.
                 telemetry.addData("Running to",  " %7d :%7d", newLeftTarget,  newRightTarget);
