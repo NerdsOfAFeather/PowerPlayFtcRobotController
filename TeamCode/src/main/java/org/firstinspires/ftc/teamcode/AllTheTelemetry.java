@@ -27,7 +27,6 @@ public class AllTheTelemetry extends PowerPlayConfig{
                     .addData("Blue", color.blue())
                     .addData("ARGB", color.argb());
             telemetry.addData("DesiredPosition", getDesiredLocation());
-            telemetry.addData("Magnetic Limit Switch", limit1.getValue());
             telemetry.addData("Lift Motor", liftLiftMotor.getCurrentPosition());
             telemetry.update();
         }

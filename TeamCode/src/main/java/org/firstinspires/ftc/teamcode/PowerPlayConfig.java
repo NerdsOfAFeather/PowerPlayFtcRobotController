@@ -21,17 +21,16 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
     public DcMotor liftLiftMotor = null;
     public Servo rightClawServo = null;
     public Servo leftClawServo = null;
-    public TouchSensor limit1;
     public ColorSensor color;
     public IMU imu;
 
-    public int desiredLiftPosition = -2;
-    public boolean liftMoving = false;
+    public int liftMotorPosition = 0;
+    public int liftMotorTarget = 0;
 
-    static final int lvl0 = 0;
-    static final int lvl1 = 750;
-    static final int lvl2 = 1250;
-    static final int lvl3 = 2000;
+    public boolean goingDown = false;
+
+    final int lvl0 = 0;
+    final int lvl1 = -500;
 
     static final double AUTO_SPEED = 0.6;
 
@@ -52,7 +51,6 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
         rightClawServo = hardwareMap.get(Servo.class, "RightClawServo");
         leftClawServo = hardwareMap.get(Servo.class, "LeftClawServo");
         color = hardwareMap.get(ColorSensor.class, "Color");
-        limit1 = hardwareMap.get(TouchSensor.class, "limit1");
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
@@ -202,24 +200,28 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
         sleep(250);
     }
 
-    public void goToStage(int stage, boolean auto) {
-        if (stage == 0 && auto) {
-            while (!limit1.isPressed()) {
-                liftLiftMotor.setPower(-0.8);
-            }
-            liftLiftMotor.setPower(0.0);
-        } else if (stage == 1 && auto) {
-            while (opModeIsActive()) {
-                if (liftLiftMotor.getCurrentPosition() >= -11300) {
-                    telemetry.addData("Position", liftLiftMotor.getCurrentPosition());
-                    liftLiftMotor.setPower(0.8);
-                } else {
-                    liftLiftMotor.setPower(0.0);
-                    break;
-                }
-            }
-            liftLiftMotor.setPower(0.0);
-        } else {
+    public void goToStage(int stage) {
+        if (stage == 0) {
+            liftMotorTarget = 0;
+            liftLiftMotor.setTargetPosition(liftMotorTarget);
+            liftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else if (stage == 1) {
+            liftMotorTarget = -500;
+            liftLiftMotor.setTargetPosition(liftMotorTarget);
+            liftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else if (stage == 2) {
+            liftMotorTarget = -1000;
+            liftLiftMotor.setTargetPosition(liftMotorTarget);
+            liftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else if (stage == 3) {
+            liftMotorTarget = -1500;
+            liftLiftMotor.setTargetPosition(liftMotorTarget);
+            liftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else if (stage == 4) {
+            liftMotorTarget =-2000;
+            liftLiftMotor.setTargetPosition(liftMotorTarget);
+            liftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }else {
             telemetry.addData("Error", "Stage not programmed (yet)");
             telemetry.update();
         }
@@ -243,79 +245,4 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
         liftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-
-    public int desiredLift(){
-        if (desiredLiftPosition == 0){
-            return lvl0;
-        } else if (desiredLiftPosition == 1){
-            return lvl1;
-        } else if (desiredLiftPosition == 2){
-            return lvl2;
-        } else if (desiredLiftPosition == 3){
-            return lvl3;
-        } else {
-            return liftLiftMotor.getCurrentPosition();
-        }
-    }
-
-    /*
-    public void encoderDrive(double speed, double leftInches, double rightInches, double timeoutS) {
-        int newFrontLeftTarget;
-        int newFrontRightTarget;
-        int newBackLeftTarget;
-        int newBackRightTarget;
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-
-            // Determine new target position, and pass to motor controller
-            newLeftTarget = leftDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTarget = rightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            newLeftTarget = leftDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTarget = rightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            leftDrive.setTargetPosition(newLeftTarget);
-            rightDrive.setTargetPosition(newRightTarget);
-            leftDrive.setTargetPosition(newLeftTarget);
-            rightDrive.setTargetPosition(newRightTarget);
-
-            // Turn On RUN_TO_POSITION
-            leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            // reset the timeout time and start motion.
-            runtime.reset();
-            leftDrive.setPower(Math.abs(speed));
-            rightDrive.setPower(Math.abs(speed));
-
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-            // always end the motion as soon as possible.
-            // However, if you require that BOTH motors have finished their moves before the robot continues
-            // onto the next step, use (isBusy() || isBusy()) in the loop test.
-            while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&
-                    (leftDrive.isBusy() || rightDrive.isBusy())) {
-
-                // Display it for the driver.
-                telemetry.addData("Running to",  " %7d :%7d", newLeftTarget,  newRightTarget);
-                telemetry.addData("Currently at",  " at %7d :%7d",
-                        leftDrive.getCurrentPosition(), rightDrive.getCurrentPosition());
-                telemetry.update();
-            }
-
-            // Stop all motion;
-            leftDrive.setPower(0);
-            rightDrive.setPower(0);
-
-            // Turn off RUN_TO_POSITION
-            leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-            sleep(250);   // optional pause after each move.
-        }
-    }
-    */
 }
