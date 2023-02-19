@@ -161,13 +161,6 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
             rightBackPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
             */
 
-            if (Math.abs(gamepad2.left_stick_y) >= 0.3) {
-                desiredLiftPosition = -2;
-                liftLiftPower = (gamepad2.left_stick_y/1.25);
-            } else {
-                liftLiftPower = 0;
-            }
-
             if (gamepad2.right_bumper){
                 if (desiredLiftPosition == -2){
                     desiredLiftPosition = 0;
@@ -180,6 +173,20 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
                 desiredLiftPosition --;
             }
 
+            liftMoving = liftLiftMotor.getCurrentPosition() != desiredLiftPosition;
+            if (Math.abs(gamepad2.left_stick_y) >= 0.3) {
+                desiredLiftPosition = -2;
+                liftLiftPower = (gamepad2.left_stick_y/1.25);
+            } else if (liftMoving){
+                liftLiftMotor.setTargetPosition(desiredLift());
+                liftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftLiftPower = 1;
+            } else {
+                liftLiftPower = 0;
+            }
+
+
+
             if (gamepad2.left_trigger >= 0.2){
                 leftClawServo.setPosition(1.0);
                 rightClawServo.setPosition(0.0);
@@ -188,7 +195,6 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
                 leftClawServo.setPosition(0.0);
                 rightClawServo.setPosition(1.0);
             }
-            liftMoving = liftLiftMotor.getCurrentPosition() != desiredLiftPosition;
 
             // Send calculated power to wheels
             leftFrontDrive.setPower(leftFrontPower);
@@ -196,11 +202,6 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
             leftBackDrive.setPower(leftBackPower);
             rightBackDrive.setPower(rightBackPower);
             liftLiftMotor.setPower(liftLiftPower);
-
-            if (liftMoving){
-                liftLiftMotor.setTargetPosition(desiredLift());
-                liftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Left Trigger", gamepad1.left_trigger);

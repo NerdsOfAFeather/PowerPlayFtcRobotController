@@ -28,13 +28,13 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
     public ColorSensor color;
     public IMU imu;
 
-    public int desiredLiftPosition = -2;
-    public boolean liftMoving = false;
+    public static int desiredLiftPosition = -2;
+    public static boolean liftMoving = false;
 
     static final int lvl0 = 0;
-    static final int lvl1 = 750;
-    static final int lvl2 = 1250;
-    static final int lvl3 = 2000;
+    static final int lvl1 = -2500;
+    static final int lvl2 = -4250;
+    static final int lvl3 = -5850;
 
     static final double AUTO_SPEED = 0.6;
 
@@ -61,7 +61,6 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
         rightClawServo = hardwareMap.get(Servo.class, "RightClawServo");
         leftClawServo = hardwareMap.get(Servo.class, "LeftClawServo");
         color = hardwareMap.get(ColorSensor.class, "Color");
-        limit1 = hardwareMap.get(TouchSensor.class, "limit1");
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
