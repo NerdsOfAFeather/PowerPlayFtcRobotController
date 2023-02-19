@@ -201,6 +201,7 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
                 liftLiftMotor.setTargetPosition(desiredLift());
                 liftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
+
             // Show the elapsed game time and wheel power.
             telemetry.addData("Left Trigger", gamepad1.left_trigger);
             telemetry.addData("Right Trigger", gamepad1.right_trigger);

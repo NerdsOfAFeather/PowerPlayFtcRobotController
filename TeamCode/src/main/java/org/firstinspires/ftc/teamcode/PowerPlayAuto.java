@@ -59,6 +59,7 @@ public class PowerPlayAuto extends PowerPlayConfig {
 
         //Make a loop for tfod
 
+
         if (tfod != null){
             tfod.activate();
             tfod.setZoom(1.0, 16.0/9.0);
