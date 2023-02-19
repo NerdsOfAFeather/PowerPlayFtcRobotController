@@ -161,6 +161,7 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
             */
 
             if (Math.abs(gamepad2.left_stick_y) >= 0.3) {
+                desiredLiftPosition = -2;
                 liftLiftPower = (gamepad2.left_stick_y/1.25);
             } else {
                 liftLiftPower = 0;
@@ -175,8 +176,10 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
                 rightClawServo.setPosition(1.0);
             }
 
-            if (gamepad2.dpad_down){
-                goingDown = true;
+            if (gamepad2.right_bumper) {
+                if (desiredLiftPosition == -2){
+                    if (liftLiftMotor.getCurrentPosition() )
+                }
             }
 
             // Send calculated power to wheels
@@ -185,7 +188,6 @@ public class PowerPlayTeleOp extends PowerPlayConfig {
             leftBackDrive.setPower(leftBackPower);
             rightBackDrive.setPower(rightBackPower);
             liftLiftMotor.setPower(liftLiftPower);
-            //liftGoDown();
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Left Trigger", gamepad1.left_trigger);

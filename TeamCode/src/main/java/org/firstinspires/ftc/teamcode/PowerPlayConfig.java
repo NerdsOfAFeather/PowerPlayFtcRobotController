@@ -25,7 +25,13 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
     public ColorSensor color;
     public IMU imu;
 
-    public boolean goingDown = false;
+    public int desiredLiftPosition = -2;
+    public boolean liftMoving = false;
+
+    static final int lvl0 = 0;
+    static final int lvl1 = 750;
+    static final int lvl2 = 1250;
+    static final int lvl3 = 2000;
 
     static final double AUTO_SPEED = 0.6;
 
@@ -238,9 +244,24 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
         liftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-    public void liftGoDown(){
-        if (!limit1.isPressed() && goingDown){
-            liftLiftMotor.setPower(0.0);
+    public int desiredLift(){
+        if (desiredLiftPosition == 0){
+            return lvl0;
+        } else if (desiredLiftPosition == 1){
+            return lvl1;
+        } else if (desiredLiftPosition == 2){
+            return lvl2;
+        } else if (desiredLiftPosition == 3){
+            return lvl3;
+        } else {
+            return liftLiftMotor.getCurrentPosition();
         }
+    }
+    public boolean liftMoving(){
+        int liftPosition = liftLiftMotor.getCurrentPosition();
+        if (desiredLiftPosition != -2){
+
+        }
+        return true;
     }
 }
