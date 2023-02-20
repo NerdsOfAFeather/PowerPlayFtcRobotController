@@ -27,58 +27,36 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.OldCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
+import org.firstinspires.ftc.teamcode.PowerPlayConfig;
 
 /* This file illustrates the concept of driving a path based on time.
    The code is structured as a LinearOpMode
  */
 
 /** Created by Gavin */
-@Autonomous(name = "PowerPlay Auto Parking Only", group = "Auto")
-//@Disabled
-public class PowerPlayAutoNoCone extends PowerPlayConfig {
+@Autonomous(name = "PowerPlay Auto", group = "Auto")
+public class PowerPlayAutoColorSensor extends PowerPlayConfig {
 
     @Override
     public void runOpMode() {
+
         // Send telemetry message to signify robot waiting
         telemetry.addData("Status", "Ready to run");
         telemetry.update();
 
         initDriveHardware();
-        //chooseProgram();
-        waitForStart();
-        clampClose();
-        sleep(500);
-        liftUp(3);
-        sleep(250);
-        driveForward(1.5);
-        int desiredLocation = getDesiredLocation();
-        if (desiredLocation == 1) { // Position 1?
-            telemetry.addData("Detected", "Red");
-            telemetry.update();
-            driveForward(.5);
-            driveBackwards(.2);
-            driveLeft(2.5);
-        } else if (desiredLocation == 2) { // Position 2?
-            telemetry.addData("Detected", "Green");
-            telemetry.update();
-            driveForward(1);
-        } else { // Position 3?
-            telemetry.addData("Detected", "Blue");
-            telemetry.update();
-            driveForward(.5);
-            driveBackwards(.2);
-            driveRight(2);
-        }
+        initLift();
+        chooseProgram();
     }
 
     public void chooseProgram(){
         while (!isStarted()) {
             telemetry.addData("Please select a Auto to run", "");
-            telemetry.addData("A - Blue Left | B - Blue Right | X - Red Left | Y - Red Right", "");
+            telemetry.addData( "A - Blue Left | B - Blue Right | X - Red Left | Y - Red Right", "");
             telemetry.update();
             if (gamepad1.a) {
                 telemetry.addData("RobotPosition", "Blue Left");
@@ -116,108 +94,189 @@ public class PowerPlayAutoNoCone extends PowerPlayConfig {
     public void blueLeft(){
         waitForStart();
         clampClose();
-        sleep(500);
         liftUp(3);
-        sleep(250);
         driveForward(1.5);
-        int desiredLocation = getDesiredLocation();
+        int desiredLocation = getDesiredLocationColor();
         if (desiredLocation == 1) { // Position 1?
             telemetry.addData("Detected", "Red");
             telemetry.update();
             driveForward(.5);
-            driveBackwards(.2);
-            driveLeft(2.5);
+             driveBackwards(.5);
+            driveRight(2.5);
+            liftUp(8); //All the way
+            driveRight(1.25);
+            liftDown(1.0);
+            clampOpen();
+            driveBackwardSlow(.6);
+            driveLeft(7);
+            driveForward(1);
         } else if (desiredLocation == 2) { // Position 2?
             telemetry.addData("Detected", "Green");
             telemetry.update();
-            driveForward(1);
+            driveForward(.5);
+             driveBackwards(.5);
+            driveRight(2.5);
+            liftUp(8); //All the way
+            driveRight(1.25);
+            driveForwardSlow(.6);
+            liftDown(1.0);
+            clampOpen();
+            driveBackwardSlow(.6);
+            driveLeft(3.5);
         } else { // Position 3?
             telemetry.addData("Detected", "Blue");
             telemetry.update();
             driveForward(.5);
-            driveBackwards(.2);
+             driveBackwards(.7);
             driveRight(2.5);
+            liftUp(8); //All the way
+            driveRight(1.25);
+            liftDown(1.0);
+            clampOpen();
+            driveBackwardSlow(.6);
+            driveLeft(7);//More?
         }
+
     }
 
     public void blueRight(){
         waitForStart();
         clampClose();
-        sleep(500);
         liftUp(3);
-        sleep(250);
         driveForward(1.5);
-        int desiredLocation = getDesiredLocation();
+        int desiredLocation = getDesiredLocationColor();
         if (desiredLocation == 1) { // Position 1?
             telemetry.addData("Detected", "Red");
             telemetry.update();
             driveForward(.5);
-            driveBackwards(.2);
-            driveLeft(3);
+             driveBackwards(.7);
+            driveLeft(2.5);
+            liftUp(8); //All the way
+            driveLeft(1.25);
+            driveForwardSlow(.6);
+            liftDown(1);
+            clampOpen();
+            driveBackwardSlow(.5);
+            driveRight(7);
+            driveForward(1);
         } else if (desiredLocation == 2) { // Position 2?
             telemetry.addData("Detected", "Green");
             telemetry.update();
-            driveForward(1);
+            driveForward(.5);
+             driveBackwards(.7);
+            driveLeft(2.5);
+            liftUp(8); //All the way
+            driveLeft(1.25);
+            driveForwardSlow(.6);
+            liftDown(1);
+            clampOpen();
+            driveBackwardSlow(.5);
+            driveRight(3.5);
         } else { // Position 3?
             telemetry.addData("Detected", "Blue");
             telemetry.update();
             driveForward(.5);
-            driveBackwards(.2);
-            driveRight(3);
+             driveBackwards(.7);
+            driveLeft(2.5);
+            liftUp(8); //All the way
+            driveLeft(1.25);
+            driveForwardSlow(.6);
+            liftDown(1);
+            clampOpen();
+            driveBackwardSlow(.5);
+            driveRight(7);
         }
+
     }
 
     public void redLeft(){
         waitForStart();
         clampClose();
-        sleep(500);
         liftUp(3);
-        sleep(250);
         driveForward(1.5);
-        int desiredLocation = getDesiredLocation();
+        int desiredLocation = getDesiredLocationColor();
         if (desiredLocation == 1) { // Position 1?
             telemetry.addData("Detected", "Red");
             telemetry.update();
             driveForward(.5);
-            driveBackwards(.2);
-            driveLeft(2.5);
+            driveBackwards(.7);
+            driveRight(2.5);
+            liftUp(8); //All the way
+            driveRight(1.25);
+            clampOpen();
+            driveLeft(7);
+            driveForward(1);
         } else if (desiredLocation == 2) { // Position 2?
             telemetry.addData("Detected", "Green");
             telemetry.update();
-            driveForward(1);
+            driveForward(.5);
+             driveBackwards(.7);
+            driveRight(2.5);
+            liftUp(8); //All the way
+            driveRight(1.25);
+             
+            clampOpen();
+            driveLeft(3.5);
         } else { // Position 3?
             telemetry.addData("Detected", "Blue");
             telemetry.update();
             driveForward(.5);
-            driveBackwards(.2);
+             driveBackwards(.7);
             driveRight(2.5);
+            liftUp(8); //All the way
+            driveRight(1.25);
+             
+            clampOpen();
+            driveLeft(7);
         }
     }
 
-    public void redRight() {
+    public void redRight(){
         waitForStart();
         clampClose();
-        sleep(500);
         liftUp(3);
-        sleep(250);
         driveForward(1.5);
-        int desiredLocation = getDesiredLocation();
+        int desiredLocation = getDesiredLocationColor();
         if (desiredLocation == 1) { // Position 1?
             telemetry.addData("Detected", "Red");
             telemetry.update();
             driveForward(.5);
-            driveBackwards(.2);
+            driveBackwards(.7);
             driveLeft(2.5);
+            liftUp(8); //All the way
+            driveLeft(1.25);
+            driveForwardSlow(.5);
+            liftDown(1);
+            clampOpen();
+            driveBackwardSlow(.5);
+            driveRight(7);
+            driveForward(1);
         } else if (desiredLocation == 2) { // Position 2?
             telemetry.addData("Detected", "Green");
             telemetry.update();
-            driveForward(1);
+            driveForward(.5);
+            driveBackwards(.7);
+            driveLeft(2.5);
+            liftUp(8); //All the way
+            driveLeft(1.25);
+            driveForwardSlow(.5);
+            liftDown(1);
+            clampOpen();
+            driveBackwardSlow(.5);
+            driveRight(3.5);
         } else { // Position 3?
             telemetry.addData("Detected", "Blue");
             telemetry.update();
             driveForward(.5);
-            driveBackwards(.2);
-            driveRight(2.5);
+            driveBackwards(.7);
+            driveLeft(2.5);
+            liftUp(8); //All the way
+            driveLeft(1.25);
+            driveForwardSlow(.6);
+            liftDown(1);
+            clampOpen();
+            driveBackwardSlow(.5);
+            driveRight(7);
         }
     }
 }

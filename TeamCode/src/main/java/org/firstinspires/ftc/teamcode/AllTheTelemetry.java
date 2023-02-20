@@ -2,8 +2,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+/** Created by Gavin for Team 6347 */
 @TeleOp(name = "Telemetry")
-public class AllTheTelemetry extends PowerPlayConfig{
+public class AllTheTelemetry extends NewPowerPlayConfig{
 
     @Override
     public void runOpMode() {
