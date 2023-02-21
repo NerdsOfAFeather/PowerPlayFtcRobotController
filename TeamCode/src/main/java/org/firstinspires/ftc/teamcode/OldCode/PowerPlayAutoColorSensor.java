@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.OldCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.PowerPlayConfig;
 
@@ -39,6 +40,7 @@ import org.firstinspires.ftc.teamcode.PowerPlayConfig;
 
 /** Created by Gavin */
 @Autonomous(name = "PowerPlay Auto", group = "Auto")
+@Disabled
 public class PowerPlayAutoColorSensor extends PowerPlayConfig {
 
     @Override

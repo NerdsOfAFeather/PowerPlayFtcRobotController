@@ -49,6 +49,7 @@ public class PowerPlayTeleOp extends NewPowerPlayConfig {
     public void runOpMode() {
 
         initDriveHardware();
+        initLift();
 
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Bingus", "Bongus");
@@ -144,36 +145,33 @@ public class PowerPlayTeleOp extends NewPowerPlayConfig {
                     if (desiredLiftPosition == -2) {
                         desiredLiftPosition = 0;
                     }
-                    if (desiredLiftPosition >= 5){
-                        desiredLiftPosition = 4;
+                    if (desiredLiftPosition >= 2){
+                        desiredLiftPosition = 2;
                     }
                     desiredLiftPosition++;
                 } else if (gamepad2.left_bumper) {
                     liftPressTime = runtime.milliseconds();
-                    if (desiredLiftPosition <= -1){
-                        desiredLiftPosition = 0;
+                    if (desiredLiftPosition <= 1){
+                        desiredLiftPosition = 1;
                     }
                     desiredLiftPosition--;
                 }
             }
 
-            if (desiredLiftPosition != 2){
-                liftMoving = liftLiftMotor.getCurrentPosition() != desiredLiftPosition;
-            }
             if (Math.abs(gamepad2.left_stick_y) >= 0.3) {
                 desiredLiftPosition = -2;
-                liftLiftPower = (gamepad2.left_stick_y/1.25);
-            } else if (liftMoving){
+                liftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                liftLiftPower = gamepad2.left_stick_y;
+                if ((liftLiftMotor.getCurrentPosition()>lvl0 && liftLiftPower > 0) ||
+                        (liftLiftMotor.getCurrentPosition()<lvl3 + 500 && liftLiftPower < 0)){
+                    liftLiftPower = 0;
+                }
+            } else if (desiredLiftPosition != -2){
                 liftLiftMotor.setTargetPosition(desiredLift());
                 liftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                liftLiftPower = 1;
+                liftLiftPower = 1.0;
             } else {
-                liftLiftPower = 0;
-            }
-
-            if ((liftLiftMotor.getCurrentPosition()<=0 && liftLiftPower > 0) ||
-               (liftLiftMotor.getCurrentPosition()>=-4900 && liftLiftPower < 0)){
-                liftLiftPower = 0;
+                liftLiftPower = 0.0;
             }
 
             if (gamepad2.left_trigger >= 0.2){
@@ -197,16 +195,20 @@ public class PowerPlayTeleOp extends NewPowerPlayConfig {
             telemetry.addData("Right Trigger", gamepad1.right_trigger);
             telemetry.addData("Left Claw Position", leftClawServo.getPosition());
             telemetry.addData("Right Claw Position", rightClawServo.getPosition());
-            telemetry.addData("Run Time: ", runtime.toString());
+            telemetry.addData("Run Time", runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+            telemetry.addData("Desiredlift", desiredLiftPosition);
+            telemetry.addData("liftpresstime", liftPressTime);
+            telemetry.addData("liftPower", liftLiftPower);
+            telemetry.addData("running to position", liftLiftMotor.getTargetPosition());
             // Show joystick information as some other illustrative data
             telemetry.addLine("Left joystick | ")
-                    .addData("x", gamepad1.left_stick_x)
-                    .addData("y", gamepad1.left_stick_y);
-            telemetry.addLine("Light joystick | ")
-                    .addData("x", gamepad1.right_stick_x)
-                    .addData("y", gamepad1.right_stick_y);
+                    .addData("x", gamepad2.left_stick_x)
+                    .addData("y", gamepad2.left_stick_y);
+            telemetry.addLine("Right joystick | ")
+                    .addData("x", gamepad2.right_stick_x)
+                    .addData("y", gamepad2.right_stick_y);
             telemetry.addData("Slow mode", slowMode);
             telemetry.update();
         }

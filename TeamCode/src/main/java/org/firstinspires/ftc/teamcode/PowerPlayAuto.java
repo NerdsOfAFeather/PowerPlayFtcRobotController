@@ -40,7 +40,7 @@ import java.util.List;
 
 /** Created by Gavin for Team 6347*/
 @Autonomous(name = "Power Play Auto TFOD", group = "Robot")
-@Disabled
+
 public class PowerPlayAuto extends NewPowerPlayConfig {
 
     @Override
@@ -62,22 +62,11 @@ public class PowerPlayAuto extends NewPowerPlayConfig {
             tfod.activate();
             tfod.setZoom(1.0, 16.0/9.0);
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-            if (updatedRecognitions != null) {
-                if (updatedRecognitions.size() == 1) {
-                    // Send telemetry message to signify robot waiting
-                    Recognition r = updatedRecognitions.get(0);
-                    telemetry.addData("Status", "Ready to run");
-                    telemetry.addData("Object Detected", r.getLabel());
-                    telemetry.update();
-                    chooseProgram();
-                } else {
-                    telemetry.addData("Status", "Confused");
-                    telemetry.update();
-                }
-            }
         }
+        chooseProgram();
         waitForStart();
     }
+
 
     public void chooseProgram(){
         while (!isStarted()) {
@@ -94,19 +83,19 @@ public class PowerPlayAuto extends NewPowerPlayConfig {
                 telemetry.addData("RobotPosition", "Blue Right");
                 telemetry.update();
                 sleep(500);
-                blueRight();
+                //blueRight();
                 break;
             } else if (gamepad1.x) {
                 telemetry.addData("RobotPosition", "Red Left");
                 telemetry.update();
                 sleep(500);
-                redLeft();
+                //redLeft();
                 break;
             } else if (gamepad1.y) {
                 telemetry.addData("RobotPosition", "Red Right");
                 telemetry.update();
                 sleep(500);
-                redRight();
+                //redRight();
                 break;
             }
         }
@@ -116,56 +105,51 @@ public class PowerPlayAuto extends NewPowerPlayConfig {
         waitForStart();
         clampClose();
         goToStage(1);
-        driveForward(1.5);
         int desiredLocation = getDesiredLocation();
+        driveForward(25, 3);
         if (desiredLocation == 1) { // Position 1?
             telemetry.addData("Detected", "Red");
             telemetry.update();
-            driveForward(.5);
-            driveBackwards(.5);
-            driveRight(2.5);
+            driveRight(33, 10);
             goToStage(3); //All the way
-            driveRight(1.25);
+            driveRight(3, 3);
+            driveForwardSlow(1, 1);
             liftDown(1.0);
             clampOpen();
-            driveBackwardSlow(.6);
-            driveLeft(7);
-            driveForward(1);
+            driveBackwardSlow(1, 1);
+            driveLeft(60, 20);
         } else if (desiredLocation == 2) { // Position 2?
             telemetry.addData("Detected", "Green");
             telemetry.update();
-            driveForward(.5);
-            driveBackwards(.5);
-            driveRight(2.5);
+            driveRight(33, 10);
             goToStage(3); //All the way
-            driveRight(1.25);
-            driveForwardSlow(.6);
+            driveRight(3, 3);
+            driveForwardSlow(1, 1);
             liftDown(1.0);
             clampOpen();
-            driveBackwardSlow(.6);
-            driveLeft(3.5);
+            driveBackwardSlow(1, 1);
+            driveLeft(36, 20);
         } else { // Position 3?
             telemetry.addData("Detected", "Blue");
             telemetry.update();
-            driveForward(.5);
-            driveBackwards(.7);
-            driveRight(2.5);
+            driveRight(33, 10);
             goToStage(3); //All the way
-            driveRight(1.25);
+            driveRight(3, 3);
+            driveForwardSlow(1, 1);
             liftDown(1.0);
             clampOpen();
-            driveBackwardSlow(.6);
-            driveLeft(7);//More?
+            driveBackwardSlow(1, 1);
+            driveLeft(6, 20);
         }
 
     }
-
+/*
     public void blueRight(){
         waitForStart();
         clampClose();
+        int desiredLocation = getDesiredLocation();
         goToStage(1);
         driveForward(1.5);
-        int desiredLocation = getDesiredLocation();
         if (desiredLocation == 1) { // Position 1?
             telemetry.addData("Detected", "Red");
             telemetry.update();
@@ -214,8 +198,8 @@ public class PowerPlayAuto extends NewPowerPlayConfig {
         waitForStart();
         clampClose();
         goToStage(1);
-        driveForward(1.5);
         int desiredLocation = getDesiredLocation();
+        driveForward(1.5);
         if (desiredLocation == 1) { // Position 1?
             telemetry.addData("Detected", "Red");
             telemetry.update();
@@ -255,8 +239,8 @@ public class PowerPlayAuto extends NewPowerPlayConfig {
         waitForStart();
         clampClose();
         goToStage(1);
-        driveForward(1.5);
         int desiredLocation = getDesiredLocation();
+        driveForward(1.5);
         if (desiredLocation == 1) { // Position 1?
             telemetry.addData("Detected", "Red");
             telemetry.update();
@@ -299,4 +283,6 @@ public class PowerPlayAuto extends NewPowerPlayConfig {
             driveRight(7);
         }
     }
+
+     */
 }

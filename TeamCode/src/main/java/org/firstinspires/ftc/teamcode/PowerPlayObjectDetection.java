@@ -48,7 +48,7 @@ import java.util.List;
 
 /** Created by Gavin for Team 6347*/
 @TeleOp(name = "Concept: TensorFlow Object Detection Webcam", group = "Concept")
-@Disabled
+//@Disabled
 public class PowerPlayObjectDetection extends LinearOpMode {
 
     /*
@@ -59,7 +59,7 @@ public class PowerPlayObjectDetection extends LinearOpMode {
      * Here we assume it's an Asset.    Also see method initTfod() below .
      */
     //public static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
-    private static final String TFOD_MODEL_FILE  = "/sdcard/FIRST/tflitemodels/model_20230220_095929.tflite";
+    private static final String TFOD_MODEL_FILE  = "/sdcard/FIRST/tflitemodels/model_20230221_171209.tflite";
 
     public static final String[] LABELS = {
             "one",

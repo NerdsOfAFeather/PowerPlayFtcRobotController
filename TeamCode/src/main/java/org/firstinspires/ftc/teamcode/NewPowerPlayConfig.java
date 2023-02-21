@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import java.util.List;
 
 /** Created by Gavin for Team 6347*/
-@TeleOp(name="PowerPlayConfig", group="Linear Opmode")
+@TeleOp(name="NewPowerPlayConfig", group="Linear Opmode")
 @Disabled
 public class NewPowerPlayConfig extends PowerPlayObjectDetection {
 
@@ -29,7 +29,6 @@ public class NewPowerPlayConfig extends PowerPlayObjectDetection {
     public IMU imu;
 
     public static int desiredLiftPosition = -2;
-    public static boolean liftMoving = false;
 
     static final int lvl0 = 0;
     static final int lvl1 = -2500;
@@ -657,13 +656,13 @@ public class NewPowerPlayConfig extends PowerPlayObjectDetection {
     public void clampClose(){
         leftClawServo.setPosition(0.0);
         rightClawServo.setPosition(1.0);
-        sleep(500);
+        sleep(1000);
     }
 
     public void clampOpen(){
         leftClawServo.setPosition(1.0);
         rightClawServo.setPosition(0.0);
-        sleep(500);
+        sleep(1000);
     }
 
 
@@ -752,9 +751,9 @@ public class NewPowerPlayConfig extends PowerPlayObjectDetection {
                 if (updatedRecognitions.get(0).getLabel().equals("one")){
                     return 1;
                 } else if (updatedRecognitions.get(0).getLabel().equals("two")){
-                    return 2;
+                    return 3; //I screwed up (Dataset mislabeled)
                 } else {
-                    return 3;
+                    return 2;
                 }
             }
         }
