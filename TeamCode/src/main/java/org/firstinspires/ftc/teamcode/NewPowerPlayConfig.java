@@ -262,7 +262,7 @@ public class NewPowerPlayConfig extends PowerPlayObjectDetection {
         }
     }
 
-    public void driveBackwardsSlow(double Inches, double timeoutS) {
+    public void driveBackwardSlow(double Inches, double timeoutS) {
         int newLeftFrontTarget;
         int newLeftBackTarget;
         int newRightFrontTarget;
