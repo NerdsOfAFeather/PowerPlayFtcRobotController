@@ -36,14 +36,12 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 import java.util.List;
 
-/*
-   The code is structured as a LinearOpMode
- */
+//The code is structured as a LinearOpMode
 
-/** Created by Gavin */
+/** Created by Gavin for Team 6347*/
 @Autonomous(name = "Power Play Auto TFOD", group = "Robot")
 @Disabled
-public class PowerPlayAuto extends PowerPlayConfig {
+public class PowerPlayAuto extends NewPowerPlayConfig {
 
     @Override
     public void runOpMode() {
@@ -110,67 +108,195 @@ public class PowerPlayAuto extends PowerPlayConfig {
                 sleep(500);
                 redRight();
                 break;
-            } else {
-                telemetry.addData("waiting", "help");
-                telemetry.update();
-                sleep(500);
             }
         }
     }
 
     public void blueLeft(){
         waitForStart();
-        if (getRecognition().equals("one")){
-            telemetry.addData("Running Code", "Blue Left One");
+        clampClose();
+        goToStage(1);
+        driveForward(1.5);
+        int desiredLocation = getDesiredLocation();
+        if (desiredLocation == 1) { // Position 1?
+            telemetry.addData("Detected", "Red");
             telemetry.update();
-        } else if (getRecognition().equals("two")){
-            telemetry.addData("Running Code", "Blue Left Two");
+            driveForward(.5);
+            driveBackwards(.5);
+            driveRight(2.5);
+            goToStage(3); //All the way
+            driveRight(1.25);
+            liftDown(1.0);
+            clampOpen();
+            driveBackwardSlow(.6);
+            driveLeft(7);
+            driveForward(1);
+        } else if (desiredLocation == 2) { // Position 2?
+            telemetry.addData("Detected", "Green");
             telemetry.update();
-        } else if (getRecognition().equals("three")){
-            telemetry.addData("Running Code", "Blue Left Three");
+            driveForward(.5);
+            driveBackwards(.5);
+            driveRight(2.5);
+            goToStage(3); //All the way
+            driveRight(1.25);
+            driveForwardSlow(.6);
+            liftDown(1.0);
+            clampOpen();
+            driveBackwardSlow(.6);
+            driveLeft(3.5);
+        } else { // Position 3?
+            telemetry.addData("Detected", "Blue");
             telemetry.update();
+            driveForward(.5);
+            driveBackwards(.7);
+            driveRight(2.5);
+            goToStage(3); //All the way
+            driveRight(1.25);
+            liftDown(1.0);
+            clampOpen();
+            driveBackwardSlow(.6);
+            driveLeft(7);//More?
         }
+
     }
 
     public void blueRight(){
         waitForStart();
-        if (getRecognition().equals("one")){
-            telemetry.addData("Running Code", "Blue Right One");
+        clampClose();
+        goToStage(1);
+        driveForward(1.5);
+        int desiredLocation = getDesiredLocation();
+        if (desiredLocation == 1) { // Position 1?
+            telemetry.addData("Detected", "Red");
             telemetry.update();
-        } else if (getRecognition().equals("two")){
-            telemetry.addData("Running Code", "Blue Right Two");
+            driveForward(.5);
+            driveBackwards(.7);
+            driveLeft(2.5);
+            goToStage(3); //All the way
+            driveLeft(1.25);
+            driveForwardSlow(.6);
+            liftDown(1);
+            clampOpen();
+            driveBackwardSlow(.5);
+            driveRight(7);
+            driveForward(1);
+        } else if (desiredLocation == 2) { // Position 2?
+            telemetry.addData("Detected", "Green");
             telemetry.update();
-        } else if (getRecognition().equals("three")){
-            telemetry.addData("Running Code", "Blue Right Three");
+            driveForward(.5);
+            driveBackwards(.7);
+            driveLeft(2.5);
+            goToStage(3); //All the way
+            driveLeft(1.25);
+            driveForwardSlow(.6);
+            liftDown(1);
+            clampOpen();
+            driveBackwardSlow(.5);
+            driveRight(3.5);
+        } else { // Position 3?
+            telemetry.addData("Detected", "Blue");
             telemetry.update();
+            driveForward(.5);
+            driveBackwards(.7);
+            driveLeft(2.5);
+            goToStage(3); //All the way
+            driveLeft(1.25);
+            driveForwardSlow(.6);
+            liftDown(1);
+            clampOpen();
+            driveBackwardSlow(.5);
+            driveRight(7);
         }
+
     }
 
     public void redLeft(){
         waitForStart();
-        if (getRecognition().equals("one")){
-            telemetry.addData("Running Code", "Red Left One");
+        clampClose();
+        goToStage(1);
+        driveForward(1.5);
+        int desiredLocation = getDesiredLocation();
+        if (desiredLocation == 1) { // Position 1?
+            telemetry.addData("Detected", "Red");
             telemetry.update();
-        } else if (getRecognition().equals("two")){
-            telemetry.addData("Running Code", "Red Left Two");
+            driveForward(.5);
+            driveBackwards(.7);
+            driveRight(2.5);
+            goToStage(3); //All the way
+            driveRight(1.25);
+            clampOpen();
+            driveLeft(7);
+            driveForward(1);
+        } else if (desiredLocation == 2) { // Position 2?
+            telemetry.addData("Detected", "Green");
             telemetry.update();
-        } else if (getRecognition().equals("three")){
-            telemetry.addData("Running Code", "Red Left Three");
+            driveForward(.5);
+            driveBackwards(.7);
+            driveRight(2.5);
+            goToStage(3); //All the way
+            driveRight(1.25);
+            clampOpen();
+            driveLeft(3.5);
+        } else { // Position 3?
+            telemetry.addData("Detected", "Blue");
             telemetry.update();
+            driveForward(.5);
+            driveBackwards(.7);
+            driveRight(2.5);
+            goToStage(3); //All the way
+            driveRight(1.25);
+
+            clampOpen();
+            driveLeft(7);
         }
     }
 
     public void redRight(){
         waitForStart();
-        if (getRecognition().equals("one")){
-            telemetry.addData("Running Code", "Red Right One");
+        clampClose();
+        goToStage(1);
+        driveForward(1.5);
+        int desiredLocation = getDesiredLocation();
+        if (desiredLocation == 1) { // Position 1?
+            telemetry.addData("Detected", "Red");
             telemetry.update();
-        } else if (getRecognition().equals("two")){
-            telemetry.addData("Running Code", "Red Right Two");
+            driveForward(.5);
+            driveBackwards(.7);
+            driveLeft(2.5);
+            goToStage(3);
+            driveLeft(1.25);
+            driveForwardSlow(.5);
+            liftDown(1);
+            clampOpen();
+            driveBackwardSlow(.5);
+            driveRight(7);
+            driveForward(1);
+        } else if (desiredLocation == 2) { // Position 2?
+            telemetry.addData("Detected", "Green");
             telemetry.update();
-        } else if (getRecognition().equals("three")){
-            telemetry.addData("Running Code", "Red Right Three");
+            driveForward(.5);
+            driveBackwards(.7);
+            driveLeft(2.5);
+            goToStage(3); //All the way
+            driveLeft(1.25);
+            driveForwardSlow(.5);
+            liftDown(1);
+            clampOpen();
+            driveBackwardSlow(.5);
+            driveRight(3.5);
+        } else { // Position 3?
+            telemetry.addData("Detected", "Blue");
             telemetry.update();
+            driveForward(.5);
+            driveBackwards(.7);
+            driveLeft(2.5);
+            goToStage(3); //All the way
+            driveLeft(1.25);
+            driveForwardSlow(.6);
+            liftDown(1);
+            clampOpen();
+            driveBackwardSlow(.5);
+            driveRight(7);
         }
     }
 }
