@@ -50,10 +50,7 @@ public class PowerPlayAuto extends NewPowerPlayConfig {
         telemetry.addData("Status", "Ready to run");
         telemetry.update();
 
-        initDriveHardware();
-        initLift();
-        initVuforia();
-        initTfod();
+        initAuto();
 
         //Make a loop for tfod
 
