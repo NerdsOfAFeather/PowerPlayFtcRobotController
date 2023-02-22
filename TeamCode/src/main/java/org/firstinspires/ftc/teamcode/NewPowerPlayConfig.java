@@ -84,6 +84,8 @@ public class NewPowerPlayConfig extends PowerPlayObjectDetection {
     public void initAuto(){
         initDriveHardware();
         initLift();
+        initTfod();
+        initVuforia();
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
