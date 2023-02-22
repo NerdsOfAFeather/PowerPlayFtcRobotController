@@ -81,6 +81,15 @@ public class NewPowerPlayConfig extends PowerPlayObjectDetection {
         liftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
+    public void initAuto(){
+        initDriveHardware();
+        initLift();
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
     public void driveForward(double Inches, double timeoutS) {
         int newLeftFrontTarget;
         int newLeftBackTarget;
