@@ -30,7 +30,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
@@ -41,7 +40,7 @@ import java.util.List;
 /** Created by Gavin for Team 6347*/
 @Autonomous(name = "Power Play Auto TFOD", group = "Robot")
 
-public class PowerPlayAuto extends NewPowerPlayConfig {
+public class PowerPlayAuto extends PowerPlayConfig {
 
     @Override
     public void runOpMode() {

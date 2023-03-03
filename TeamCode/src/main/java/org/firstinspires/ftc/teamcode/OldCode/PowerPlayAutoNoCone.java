@@ -32,7 +32,7 @@ package org.firstinspires.ftc.teamcode.OldCode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.teamcode.PowerPlayConfig;
+import org.firstinspires.ftc.teamcode.OldPowerPlayConfig;
 
 /* This file illustrates the concept of driving a path based on time.
    The code is structured as a LinearOpMode
@@ -41,7 +41,7 @@ import org.firstinspires.ftc.teamcode.PowerPlayConfig;
 /** Created by Gavin for Team 6347*/
 @Autonomous(name = "PowerPlay Auto Parking Only", group = "Auto")
 @Disabled
-public class PowerPlayAutoNoCone extends PowerPlayConfig {
+public class PowerPlayAutoNoCone extends OldPowerPlayConfig {
 
     @Override
     public void runOpMode() {
