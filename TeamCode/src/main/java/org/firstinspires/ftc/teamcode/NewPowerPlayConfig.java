@@ -21,7 +21,7 @@ import java.util.List;
 
 /** Created by Gavin for Team 6347*/
 @TeleOp(name="NewPowerPlayConfig", group="Linear Opmode")
-@Disabled
+
 public class NewPowerPlayConfig extends PowerPlayObjectDetection {
 
     public DcMotor leftFrontDrive = null;
