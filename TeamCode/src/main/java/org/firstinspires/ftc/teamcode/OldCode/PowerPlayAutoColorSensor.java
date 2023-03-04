@@ -39,7 +39,7 @@ import org.firstinspires.ftc.teamcode.OldPowerPlayConfig;
  */
 
 /** Created by Gavin */
-@Autonomous(name = "PowerPlay Auto", group = "Auto")
+@Autonomous(name = "PowerPlay Auto Color Sensor", group = "Auto")
 @Disabled
 public class PowerPlayAutoColorSensor extends OldPowerPlayConfig {
 

@@ -8,6 +8,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+
+import java.util.List;
+
 /** Created by Gavin for Team 6347*/
 @TeleOp(name="OldPowerPlayConfig", group="Linear Opmode")
 @Disabled
@@ -55,7 +59,7 @@ public class OldPowerPlayConfig extends PowerPlayObjectDetection {
         liftLiftMotor = hardwareMap.get(DcMotor.class, "LiftLiftMotor");
         rightClawServo = hardwareMap.get(Servo.class, "RightClawServo");
         leftClawServo = hardwareMap.get(Servo.class, "LeftClawServo");
-        color = hardwareMap.get(ColorSensor.class, "Color");
+        //color = hardwareMap.get(ColorSensor.class, "Color");
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
@@ -175,7 +179,7 @@ public class OldPowerPlayConfig extends PowerPlayObjectDetection {
     public void clampClose(){
         leftClawServo.setPosition(0.0);
         rightClawServo.setPosition(1.0);
-        sleep(500);
+        sleep(1500);
     }
 
     public void clampOpen(){
@@ -225,5 +229,98 @@ public class OldPowerPlayConfig extends PowerPlayObjectDetection {
         }
     }
 
+    public int getDesiredLocation() {
+        if (tfod != null) {
+            // getUpdatedRecognitions() will return null if no new information is available since
+            // the last time that call was made.
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if (updatedRecognitions.size() == 1) {
+                if (updatedRecognitions.get(0).getLabel().equals("one")){
+                    return 1;
+                } else if (updatedRecognitions.get(0).getLabel().equals("two")){
+                    return 3; //I screwed up (Dataset mislabeled)
+                } else {
+                    return 2;
+                }
+            }
+        }
+        return 0;
+    }
+
+    public void goToStage(int stage) {
+        if (stage == 0) {
+            // Ensure that the opmode is still active
+            if (opModeIsActive()) {
+                liftLiftMotor.setTargetPosition(lvl0);
+
+                liftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftLiftMotor.setPower(Math.abs(1));
+
+                while (opModeIsActive() && liftLiftMotor.isBusy()) {
+                    telemetry.addData("Running to Stage", 0);
+                    telemetry.update();
+                }
+
+                liftLiftMotor.setPower(0);
+                liftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                sleep(250);   // optional pause after each move.
+            }
+        } else if (stage == 1) {
+            if (opModeIsActive()) {
+                liftLiftMotor.setTargetPosition(lvl1);
+
+                liftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftLiftMotor.setPower(Math.abs(1));
+
+                while (opModeIsActive() && liftLiftMotor.isBusy()) {
+                    telemetry.addData("Running to Stage", 1);
+                    telemetry.update();
+                }
+
+                liftLiftMotor.setPower(0);
+                liftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                sleep(250);   // optional pause after each move.
+            }
+        } else if (stage == 2){
+            if (opModeIsActive()) {
+                liftLiftMotor.setTargetPosition(lvl2);
+
+                liftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftLiftMotor.setPower(Math.abs(1));
+
+                while (opModeIsActive() && liftLiftMotor.isBusy()) {
+                    telemetry.addData("Running to Stage", 2);
+                    telemetry.update();
+                }
+
+                liftLiftMotor.setPower(0);
+                liftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                sleep(250);   // optional pause after each move.
+            }
+        } else if (stage == 3){
+            if (opModeIsActive()) {
+                liftLiftMotor.setTargetPosition(lvl3);
+
+                liftLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                liftLiftMotor.setPower(Math.abs(1));
+
+                while (opModeIsActive() && liftLiftMotor.isBusy()) {
+                    telemetry.addData("Running to Stage", 3);
+                    telemetry.update();
+                }
+
+                liftLiftMotor.setPower(0);
+                liftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                sleep(250);   // optional pause after each move.
+            }
+        } else {
+            telemetry.addData("Error", "Stage not programmed (yet)");
+            telemetry.update();
+        }
+    }
 
 }

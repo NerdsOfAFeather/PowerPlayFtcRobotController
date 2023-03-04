@@ -59,7 +59,7 @@ public class PowerPlayConfig extends PowerPlayObjectDetection {
         liftLiftMotor = hardwareMap.get(DcMotor.class, "LiftLiftMotor");
         rightClawServo = hardwareMap.get(Servo.class, "RightClawServo");
         leftClawServo = hardwareMap.get(Servo.class, "LeftClawServo");
-        color = hardwareMap.get(ColorSensor.class, "Color");
+        //color = hardwareMap.get(ColorSensor.class, "Color");
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 

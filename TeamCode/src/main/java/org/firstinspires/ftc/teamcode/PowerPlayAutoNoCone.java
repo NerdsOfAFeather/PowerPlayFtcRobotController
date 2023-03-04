@@ -40,7 +40,7 @@ import java.util.List;
 /** Created by Gavin for Team 6347*/
 @Autonomous(name = "PowerPlay Auto", group = "Robot")
 
-public class PowerPlayAutoNoCone extends NewPowerPlayConfig {
+public class PowerPlayAutoNoCone extends OldPowerPlayConfig {
 
     @Override
     public void runOpMode() {
@@ -49,7 +49,10 @@ public class PowerPlayAutoNoCone extends NewPowerPlayConfig {
         telemetry.addData("Status", "Initializing...");
         telemetry.update();
 
-        initAuto();
+        initDriveHardware();
+        initLift();
+        initVuforia();
+        initTfod();
 
         //Make a loop for tfod
         if (tfod != null){
@@ -63,11 +66,13 @@ public class PowerPlayAutoNoCone extends NewPowerPlayConfig {
         clampClose();
         goToStage(1);
         int desiredLocation = getDesiredLocation();
-        driveForward(25);
+        driveForward(2.25);
         if (desiredLocation == 1) { // Position 1?
             telemetry.addData("Detected", "One");
             telemetry.update();
-            driveLeft(24);
+            sleep(10000);
+            driveLeft(3);
+            goToStage(0);
         } else if (desiredLocation == 2) { // Position 2?
             telemetry.addData("Detected", "Two");
             telemetry.update();
@@ -75,7 +80,9 @@ public class PowerPlayAutoNoCone extends NewPowerPlayConfig {
         } else { // Position 3?
             telemetry.addData("Detected", "Three");
             telemetry.update();
-            driveRight(24);
+            sleep(10000);
+            driveRight(2.75);
+            goToStage(0);
         }
     }
 }

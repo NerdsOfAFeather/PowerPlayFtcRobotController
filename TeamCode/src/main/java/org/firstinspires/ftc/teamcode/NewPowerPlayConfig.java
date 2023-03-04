@@ -41,7 +41,7 @@ public class NewPowerPlayConfig extends PowerPlayObjectDetection {
     static final int lvl2 = -4250;
     static final int lvl3 = -5850;
 
-    static final double AUTO_SPEED = 0.6;
+    static final double AUTO_SPEED = 0.1;
 
     static final double     COUNTS_PER_MOTOR_REV    = 960 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
@@ -60,11 +60,10 @@ public class NewPowerPlayConfig extends PowerPlayObjectDetection {
     private int     leftBackTarget    = 0;
     private int     rightBackTarget   = 0;
 
-    static final double     DRIVE_SPEED             = 0.4;     // Max driving speed for better distance accuracy.
     static final double     TURN_SPEED              = 0.2;     // Max Turn speed to limit turn rate
     static final double     HEADING_THRESHOLD       = 1.0;     // How close must the heading get to the target before moving to next step.
     static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_GAIN           = 0.03;
+    static final double     P_DRIVE_GAIN           = 0.0;
 
     RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;
     RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.UP;
@@ -82,7 +81,7 @@ public class NewPowerPlayConfig extends PowerPlayObjectDetection {
         liftLiftMotor = hardwareMap.get(DcMotor.class, "LiftLiftMotor");
         rightClawServo = hardwareMap.get(Servo.class, "RightClawServo");
         leftClawServo = hardwareMap.get(Servo.class, "LeftClawServo");
-        color = hardwareMap.get(ColorSensor.class, "Color");
+        //color = hardwareMap.get(ColorSensor.class, "Color");
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -109,8 +108,8 @@ public class NewPowerPlayConfig extends PowerPlayObjectDetection {
     public void initAuto(){
         initDriveHardware();
         initLift();
-        initTfod();
         initVuforia();
+        initTfod();
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -153,9 +152,15 @@ public class NewPowerPlayConfig extends PowerPlayObjectDetection {
 
                 // Determine required steering to keep on heading
                 turnSpeed = getSteeringCorrection(0, P_DRIVE_GAIN);
-
+                telemetry.addData("turnSpeed", turnSpeed);
+                telemetry.addData("LeftFront", leftFrontDrive.getPower());
+                telemetry.addData("RightFront", rightFrontDrive.getPower());
+                telemetry.addData("LeftBack", leftBackDrive.getPower());
+                telemetry.addData("RightBack", rightBackDrive.getPower());
                 // Apply the turning correction to the current driving speed.
                 moveRobot(AUTO_SPEED, turnSpeed, 1);
+                telemetry.update();
+                sleep(250);
             }
 
             // Stop all motion & Turn off RUN_TO_POSITION
@@ -169,6 +174,7 @@ public class NewPowerPlayConfig extends PowerPlayObjectDetection {
 
     public void driveRight(double distance) {
 
+        resetHeading();
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
@@ -205,7 +211,14 @@ public class NewPowerPlayConfig extends PowerPlayObjectDetection {
                 turnSpeed = getSteeringCorrection(0, P_DRIVE_GAIN);
 
                 // Apply the turning correction to the current driving speed.
-                moveRobot(AUTO_SPEED, turnSpeed, 1);
+                rightBackDrive.setPower(AUTO_SPEED * turnSpeed);
+                rightFrontDrive.setPower(AUTO_SPEED * turnSpeed);
+
+                telemetry.addData("LeftFront", leftFrontDrive.getPower());
+                telemetry.addData("RightFront", rightFrontDrive.getPower());
+                telemetry.addData("LeftBack", leftBackDrive.getPower());
+                telemetry.addData("RightBack", rightBackDrive.getPower());
+                telemetry.update();
             }
 
             // Stop all motion & Turn off RUN_TO_POSITION
@@ -253,7 +266,6 @@ public class NewPowerPlayConfig extends PowerPlayObjectDetection {
 
                 // Determine required steering to keep on heading
                 turnSpeed = getSteeringCorrection(0, P_DRIVE_GAIN);
-
                 // Apply the turning correction to the current driving speed.
                 moveRobot(AUTO_SPEED, turnSpeed, 1);
             }
@@ -280,7 +292,10 @@ public class NewPowerPlayConfig extends PowerPlayObjectDetection {
             rightBackSpeed = drive + turn;
 
             // Scale speeds down if either one exceeds +/- 1.0;
-            double max = Math.max(Math.max(Math.abs(leftFrontSpeed), Math.abs(rightFrontSpeed)), Math.max(Math.abs(leftBackSpeed), Math.abs(rightBackSpeed)));
+            double max = Math.max(Math.max(Math.abs(leftFrontSpeed),
+                    Math.abs(rightFrontSpeed)),
+                    Math.max(Math.abs(leftBackSpeed),
+                    Math.abs(rightBackSpeed)));
             if (max > 1.0) {
                 leftFrontSpeed /= max;
                 rightFrontSpeed /= max;
@@ -304,7 +319,7 @@ public class NewPowerPlayConfig extends PowerPlayObjectDetection {
     public double getSteeringCorrection(double desiredHeading, double proportionalGain) {
         // Get the robot heading by applying an offset to the IMU heading
         robotHeading = getRawHeading() - headingOffset;
-
+        //telemetry.addData("Raw Heading", robotHeading);
         // Determine the heading current error
         headingError = desiredHeading - robotHeading;
 
