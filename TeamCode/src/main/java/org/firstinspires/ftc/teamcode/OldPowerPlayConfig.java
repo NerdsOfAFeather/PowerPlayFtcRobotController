@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /** Created by Gavin for Team 6347*/
-@TeleOp(name="PowerPlayConfig", group="Linear Opmode")
+@TeleOp(name="OldPowerPlayConfig", group="Linear Opmode")
 @Disabled
 public class OldPowerPlayConfig extends PowerPlayObjectDetection {
 

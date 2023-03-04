@@ -48,7 +48,7 @@ import java.util.List;
 
 /** Created by Gavin for Team 6347*/
 @TeleOp(name = "Concept: TensorFlow Object Detection Webcam", group = "Concept")
-//@Disabled
+@Disabled
 public class PowerPlayObjectDetection extends LinearOpMode {
 
     /*
