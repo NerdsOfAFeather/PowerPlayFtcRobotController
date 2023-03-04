@@ -163,7 +163,7 @@ public class PowerPlayTeleOp extends NewPowerPlayConfig {
                 liftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 liftLiftPower = gamepad2.left_stick_y;
                 if ((liftLiftMotor.getCurrentPosition()>lvl0 && liftLiftPower > 0) ||
-                        (liftLiftMotor.getCurrentPosition()<lvl3 + 500 && liftLiftPower < 0)){
+                        (liftLiftMotor.getCurrentPosition()<lvl3 - 500 && liftLiftPower < 0)){
                     liftLiftPower = 0;
                 }
             } else if (desiredLiftPosition != -2){
